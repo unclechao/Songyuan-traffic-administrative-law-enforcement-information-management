@@ -18,7 +18,7 @@ export default class Main extends AuthComponent {
             <AntdMenu />
           </Layout.Sider>
           <Layout.Content style={{ margin: "30px 4px 4px 4px" }}>
-            {this.props.childPage}
+            {this.props.children}
           </Layout.Content>
         </Layout>
         <Footer />

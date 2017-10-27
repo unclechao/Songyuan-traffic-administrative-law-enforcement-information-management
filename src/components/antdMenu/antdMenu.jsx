@@ -6,7 +6,7 @@ export default class AntdMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openKeys: ["sub1"],
+      openKeys: [],
       rootSubmenuKeys: [
         "sub1",
         "sub2",
@@ -44,8 +44,6 @@ export default class AntdMenu extends Component {
         style={{ width: 240 }}
         openKeys={this.state.openKeys}
         onOpenChange={this.onOpenChange}
-        defaultSelectedKeys={["11"]}
-        defaultOpenKeys={["sub1"]}
         mode="inline"
       >
         <Menu.SubMenu
