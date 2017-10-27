@@ -34,7 +34,7 @@ export default class AuthComponent extends Component {
                 transitionIn: "bounceInLeft",
                 transitionOut: "fadeOutRight"
               });
-              props.history.push("/login");
+              this.props.history.push("/login");
             }
           }
         });

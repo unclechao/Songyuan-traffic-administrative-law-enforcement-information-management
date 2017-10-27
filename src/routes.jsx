@@ -4,6 +4,7 @@ import createBrowserHistory from "history/createBrowserHistory";
 import LoginPage from "./pages/loginPage";
 import Main from "./components/main/main";
 import PageNotFound from "./pages/pageNotFound";
+import MainFrame from "./pages/mainFrame";
 
 const history = createBrowserHistory();
 

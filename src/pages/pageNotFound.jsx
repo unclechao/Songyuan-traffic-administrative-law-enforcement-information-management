@@ -8,10 +8,10 @@ export default class PageNotFound extends Component {
       <div>
         <Header title="松原交通综合行政执法信息管理系统" fatherProps={this.props} />
         <center>
-          <div class="container">
-            <div class="row">
-              <div class="span12">
-                <div class="hero-unit">
+          <div className="container">
+            <div className="row">
+              <div className="span12">
+                <div className="hero-unit">
                   <br />
                   <h1>
                     <big>
@@ -23,8 +23,8 @@ export default class PageNotFound extends Component {
                   <br />
                   <p>对不起，您请求的页面不存在</p>
                   <br />
-                  <a href="/" class="btn btn-large btn-info">
-                    <i class="icon-home icon-white" /> 返回首页
+                  <a href="/" className="btn btn-large btn-info">
+                    <i className="icon-home icon-white" /> 返回首页
                   </a>
                 </div>
                 <br />

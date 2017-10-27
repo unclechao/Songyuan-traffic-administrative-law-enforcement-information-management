@@ -2,7 +2,6 @@ import React from "react";
 import { Layout } from "antd";
 import AuthComponent from "../authComponent/authComponent";
 import AntdMenu from "../antdMenu/antdMenu";
-import AntdTable from "../antdTable/antdTable";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 
@@ -19,8 +18,7 @@ export default class Main extends AuthComponent {
             <AntdMenu />
           </Layout.Sider>
           <Layout.Content style={{ margin: "30px 4px 4px 4px" }}>
-            <AntdTable />
-            <AntdTable />
+            {this.props.childPage}
           </Layout.Content>
         </Layout>
         <Footer />
