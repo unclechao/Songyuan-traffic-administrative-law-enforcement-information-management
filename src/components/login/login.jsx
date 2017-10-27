@@ -101,7 +101,7 @@ export default class Login extends Component {
                   transitionIn: "bounceInLeft",
                   transitionOut: "fadeOutRight"
                 });
-                this.props.fatherProps.history.push("/main");
+                this.props.history.push("/main");
               }
             }
           });

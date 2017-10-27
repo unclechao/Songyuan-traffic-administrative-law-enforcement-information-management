@@ -38,9 +38,9 @@ export default class Header extends Component {
         userInfo: "欢迎你,请登录",
         active: "登录"
       });
-      this.props.fatherProps.history.push("/login");
+      this.props.history.push("/login");
     } else {
-      this.props.fatherProps.history.push("/login");
+      this.props.history.push("/login");
     }
   }
 

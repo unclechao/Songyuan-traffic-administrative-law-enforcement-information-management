@@ -7,8 +7,8 @@ export default class LoginPage extends Component {
   render() {
     return (
       <div>
-        <Header title="松原交通综合行政执法信息管理系统" fatherProps={this.props} />
-        <Login fatherProps={this.props} />
+        <Header {...this.props} title="松原交通综合行政执法信息管理系统" />
+        <Login {...this.props} />
         <Footer />
       </div>
     );

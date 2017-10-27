@@ -6,7 +6,7 @@ export default class PageNotFound extends Component {
   render() {
     return (
       <div>
-        <Header title="松原交通综合行政执法信息管理系统" fatherProps={this.props} />
+        <Header title="松原交通综合行政执法信息管理系统" {...this.props} />
         <center>
           <div className="container">
             <div className="row">
