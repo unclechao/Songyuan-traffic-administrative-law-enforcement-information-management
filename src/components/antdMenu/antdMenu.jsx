@@ -8,7 +8,16 @@ export default class AntdMenu extends Component {
     super(props);
     this.state = {
       openKeys: ["sub1"],
-      rootSubmenuKeys: ["sub1", "sub2", "sub3", "sub4", "sub5", "sub6", "sub7"]
+      rootSubmenuKeys: [
+        "sub1",
+        "sub2",
+        "sub3",
+        "sub4",
+        "sub5",
+        "sub6",
+        "sub7",
+        "sub8"
+      ]
     };
   }
 
@@ -129,6 +138,18 @@ export default class AntdMenu extends Component {
           <Menu.Item key="73">执法车辆里程统计</Menu.Item>
           <Menu.Item key="74">投诉处理统计</Menu.Item>
           <Menu.Item key="75">监督检查统计</Menu.Item>
+        </SubMenu>
+        <SubMenu
+          key="sub8"
+          title={
+            <span>
+              <Icon type="appstore" />
+              <span>系统设置</span>
+            </span>
+          }
+        >
+          <Menu.Item key="81">用户设置</Menu.Item>
+          <Menu.Item key="82">关于</Menu.Item>
         </SubMenu>
       </Menu>
     );
