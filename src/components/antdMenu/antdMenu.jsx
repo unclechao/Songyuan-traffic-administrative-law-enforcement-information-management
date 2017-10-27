@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import { Menu, Icon } from "antd";
-const SubMenu = Menu.SubMenu;
 
 export default class AntdMenu extends Component {
   constructor(props) {
@@ -49,7 +48,7 @@ export default class AntdMenu extends Component {
         defaultOpenKeys={["sub1"]}
         mode="inline"
       >
-        <SubMenu
+        <Menu.SubMenu
           key="sub1"
           title={
             <span>
@@ -62,8 +61,8 @@ export default class AntdMenu extends Component {
           <Menu.Item key="12">执法人员档案</Menu.Item>
           <Menu.Item key="13">执法车辆档案</Menu.Item>
           <Menu.Item key="14">执法装备档案</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub2"
           title={
             <span>
@@ -74,8 +73,8 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="21">出勤信息</Menu.Item>
           <Menu.Item key="22">执法检查</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub3"
           title={
             <span>
@@ -86,8 +85,8 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="31">实时监控</Menu.Item>
           <Menu.Item key="32">运行轨迹</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub4"
           title={
             <span>
@@ -98,8 +97,8 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="41">文本调度信息</Menu.Item>
           <Menu.Item key="42">参数设置</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub5"
           title={
             <span>
@@ -110,8 +109,8 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="51">语音调度</Menu.Item>
           <Menu.Item key="52">短信调度</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub6"
           title={
             <span>
@@ -123,8 +122,8 @@ export default class AntdMenu extends Component {
           <Menu.Item key="61">工单创建</Menu.Item>
           <Menu.Item key="62">工单处理</Menu.Item>
           <Menu.Item key="63">工单查询</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub7"
           title={
             <span>
@@ -138,8 +137,8 @@ export default class AntdMenu extends Component {
           <Menu.Item key="73">执法车辆里程统计</Menu.Item>
           <Menu.Item key="74">投诉处理统计</Menu.Item>
           <Menu.Item key="75">监督检查统计</Menu.Item>
-        </SubMenu>
-        <SubMenu
+        </Menu.SubMenu>
+        <Menu.SubMenu
           key="sub8"
           title={
             <span>
@@ -150,7 +149,7 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="81">用户设置</Menu.Item>
           <Menu.Item key="82">关于</Menu.Item>
-        </SubMenu>
+        </Menu.SubMenu>
       </Menu>
     );
   }
