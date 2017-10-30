@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^2.13.7",
+    "antd": "^2.13.8",
     "bootstrap": "^3.3.7",
     "express": "^4.16.2",
     "history": "^4.7.2",
