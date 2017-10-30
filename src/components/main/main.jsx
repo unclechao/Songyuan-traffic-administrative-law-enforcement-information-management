@@ -15,7 +15,7 @@ export default class Main extends AuthComponent {
             width="240"
             style={{ margin: "30px 4px 4px 0", background: "#fff" }}
           >
-            <AntdMenu />
+            <AntdMenu {...this.props} />
           </Layout.Sider>
           <Layout.Content style={{ margin: "30px 4px 4px 4px" }}>
             {this.props.children}

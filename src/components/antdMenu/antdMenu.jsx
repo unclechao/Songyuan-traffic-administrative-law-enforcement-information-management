@@ -5,23 +5,21 @@ import { Menu, Icon } from "antd";
 export default class AntdMenu extends Component {
   constructor(props) {
     super(props);
+    let keyId = [];
+    if (this.props.match.params.keyId) {
+      keyId = [this.props.match.params.keyId.split(":")[1]];
+    }
+    let selectedKey = [this.props.location.pathname.split("/")[1]];
     this.state = {
-      openKeys: [],
-      rootSubmenuKeys: [
-        "sub1",
-        "sub2",
-        "sub3",
-        "sub4",
-        "sub5",
-        "sub6",
-        "sub7",
-        "sub8"
-      ]
+      openKeys: keyId,
+      defaultSelectedKeys: selectedKey,
+      rootSubmenuKeys: ["1", "2", "3", "4", "5", "6", "7", "8"]
     };
   }
 
   handleMenuClick = e => {
-    console.log("click ", e);
+    //console.log("click ", e);
+    this.props.history.push(e.key);
   };
 
   onOpenChange = openKeys => {
@@ -42,12 +40,13 @@ export default class AntdMenu extends Component {
       <Menu
         onClick={this.handleMenuClick}
         style={{ width: 240 }}
-        openKeys={this.state.openKeys}
+        defaultOpenKeys={this.state.openKeys}
+        defaultSelectedKeys={this.state.defaultSelectedKeys}
         onOpenChange={this.onOpenChange}
         mode="inline"
       >
         <Menu.SubMenu
-          key="sub1"
+          key="1"
           title={
             <span>
               <Icon type="appstore" />
@@ -56,12 +55,12 @@ export default class AntdMenu extends Component {
           }
         >
           <Menu.Item key="11">执法机构档案</Menu.Item>
-          <Menu.Item key="12">执法人员档案</Menu.Item>
+          <Menu.Item key="adminOrganInfo:1">执法人员档案</Menu.Item>
           <Menu.Item key="13">执法车辆档案</Menu.Item>
           <Menu.Item key="14">执法装备档案</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub2"
+          key="2"
           title={
             <span>
               <Icon type="appstore" />
@@ -73,7 +72,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="22">执法检查</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub3"
+          key="3"
           title={
             <span>
               <Icon type="appstore" />
@@ -85,7 +84,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="32">运行轨迹</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub4"
+          key="4"
           title={
             <span>
               <Icon type="appstore" />
@@ -97,7 +96,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="42">参数设置</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub5"
+          key="5"
           title={
             <span>
               <Icon type="appstore" />
@@ -109,7 +108,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="52">短信调度</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub6"
+          key="6"
           title={
             <span>
               <Icon type="appstore" />
@@ -122,7 +121,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="63">工单查询</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub7"
+          key="7"
           title={
             <span>
               <Icon type="appstore" />
@@ -137,7 +136,7 @@ export default class AntdMenu extends Component {
           <Menu.Item key="75">监督检查统计</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
-          key="sub8"
+          key="8"
           title={
             <span>
               <Icon type="appstore" />
