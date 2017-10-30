@@ -1,11 +1,22 @@
 import React, { Component } from "react";
 import Main from "../components/main/main";
 
+import AntdTable from "../components/antdTable/antdTable";
+
 export default class AdminOrganInfoPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      child: AntdTable
+    };
+  }
+
   render() {
     return (
       <div>
-        <Main {...this.props} children="这里是执法人员子页面" />
+        <Main {...this.props}>
+          <AntdTable />
+        </Main>
       </div>
     );
   }
