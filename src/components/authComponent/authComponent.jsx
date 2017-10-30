@@ -6,15 +6,13 @@ export default class AuthComponent extends Component {
   constructor(props) {
     super(props);
     // 鉴权,失败时跳转到登录页面
-    var storage = window.localStorage;
-
     fetch("/api/authValidate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        token: storage.token
+        token: window.localStorage.token
       })
     })
       .then(res => {

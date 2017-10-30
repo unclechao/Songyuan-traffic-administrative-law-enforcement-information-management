@@ -6,10 +6,9 @@ import "izitoast/dist/css/iziToast.min.css";
 export default class Header extends Component {
   constructor(props) {
     super(props);
-    let storage = window.localStorage;
-    if (storage["username"]) {
+    if (window.localStorage["username"]) {
       this.state = {
-        userInfo: "欢迎你," + storage["username"],
+        userInfo: "欢迎你," + window.localStorage["username"],
         active: "安全退出"
       };
     } else {
@@ -22,12 +21,11 @@ export default class Header extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    let storage = window.localStorage;
     // already login
     if (this.state.active === "安全退出") {
-      storage.removeItem("uid");
-      storage.removeItem("username");
-      storage.removeItem("token");
+      window.localStorage.removeItem("uid");
+      window.localStorage.removeItem("username");
+      window.localStorage.removeItem("token");
       iziToast.success({
         title: "成功",
         message: "注销成功",

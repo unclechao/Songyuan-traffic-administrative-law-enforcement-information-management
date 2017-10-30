@@ -81,6 +81,7 @@ apiRoutes.use((req, res, next) => {
 apiRoutes.post("/authorizeLogin", api.authorizeLogin);
 //api needs token
 apiRoutes.post("/authValidate", api.authValidate);
+apiRoutes.post("/getAdminVehInfoData", api.getAdminVehInfoData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,

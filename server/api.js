@@ -2,6 +2,7 @@ var jwt = require("jsonwebtoken");
 var mongoose = require("mongoose");
 var app = require("./server");
 var user = require("./model/user");
+var adminVehInfo = require("./model/basicInfo/adminVehInfo");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -59,5 +60,24 @@ exports.authValidate = (req, res) => {
     code: 1,
     message: "权限校验成功.",
     validate: true
+  });
+};
+
+exports.getAdminVehInfoData = (req, res) => {
+  console.log(req.body.params);
+
+  adminVehInfo.find({}, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: 0,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 1,
+        totalCount: 35,
+        data
+      });
+    }
   });
 };

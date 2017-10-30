@@ -91,10 +91,9 @@ export default class Login extends Component {
                   transitionOut: "fadeOutRight"
                 });
               } else {
-                var storage = window.localStorage;
-                storage["uid"] = ret.uid;
-                storage["username"] = ret.username;
-                storage["token"] = ret.token;
+                window.localStorage["uid"] = ret.uid;
+                window.localStorage["username"] = ret.username;
+                window.localStorage["token"] = ret.token;
                 iziToast.success({
                   title: "成功",
                   message: ret.message,

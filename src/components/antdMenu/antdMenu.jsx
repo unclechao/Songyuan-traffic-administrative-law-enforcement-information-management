@@ -56,7 +56,7 @@ export default class AntdMenu extends Component {
         >
           <Menu.Item key="11">执法机构档案</Menu.Item>
           <Menu.Item key="adminOrganInfo:1">执法人员档案</Menu.Item>
-          <Menu.Item key="13">执法车辆档案</Menu.Item>
+          <Menu.Item key="adminVehInfo:1">执法车辆档案</Menu.Item>
           <Menu.Item key="14">执法装备档案</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
