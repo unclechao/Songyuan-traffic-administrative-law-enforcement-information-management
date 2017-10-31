@@ -164,7 +164,7 @@ export default class Login extends Component {
                     </div>
                     <div
                       className={this.state.checkboxClass}
-                      onClick={this.handleShowPassword.bind(this)}
+                      onClick={this.handleShowPassword}
                     >
                       <span className="character-checkbox" />
                       <span className="label">显示密码</span>

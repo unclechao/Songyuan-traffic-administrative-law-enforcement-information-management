@@ -104,3 +104,15 @@ exports.getAdminVehInfoData = (req, res) => {
     }
   });
 };
+
+exports.deleteAdminInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  console.log(queryParams);
+
+  
+
+  res.status(500).send({
+    code: 0,
+    message: "服务器内部错误"
+  });
+};

@@ -82,6 +82,7 @@ apiRoutes.post("/authorizeLogin", api.authorizeLogin);
 //api needs token
 apiRoutes.post("/authValidate", api.authValidate);
 apiRoutes.post("/getAdminVehInfoData", api.getAdminVehInfoData);
+apiRoutes.post("/deleteAdminInfoData", api.deleteAdminInfoData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,
