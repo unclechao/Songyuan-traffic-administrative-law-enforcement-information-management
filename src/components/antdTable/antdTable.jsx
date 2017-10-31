@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Table } from "antd";
+import { Table, Button } from "antd";
 import "antd/dist/antd.css";
+import "./antdTable.css";
 import iziToast from "iziToast";
 import "izitoast/dist/css/iziToast.min.css";
 
@@ -23,6 +24,13 @@ const columns = [
       { text: "捷达", value: "捷达" },
       { text: "丰田", value: "丰田" }
     ]
+  },
+  {
+    title: "操作",
+    key: "operation",
+    fixed: "right",
+    width: 100,
+    render: () => <Button>修改</Button>
   }
 ];
 
@@ -32,14 +40,9 @@ export default class AntdTable extends Component {
     this.state = {
       data: [],
       pagination: {},
-      loading: false,
-      selectedRowKeys: []
+      loading: false
     };
   }
-
-  onSelectChange = selectedRowKeys => {
-    this.setState({ selectedRowKeys });
-  };
 
   handleTableChange = (pagination, filters, sorter) => {
     const pager = { ...this.state.pagination };
@@ -94,20 +97,27 @@ export default class AntdTable extends Component {
 
   render() {
     const rowSelection = {
-      selectedRowKeys: this.state.selectedRowKeys,
-      onChange: this.onSelectChange
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`);
+      }
     };
 
     return (
-      <Table
-        columns={columns}
-        rowSelection={rowSelection}
-        rowKey={record => record._id}
-        dataSource={this.state.data}
-        pagination={this.state.pagination}
-        loading={this.state.loading}
-        onChange={this.handleTableChange}
-      />
+      <div>
+        <div className="table-operations">
+          <Button>新增</Button>
+          <Button>删除</Button>
+        </div>
+        <Table
+          columns={columns}
+          rowSelection={rowSelection}
+          rowKey={record => record._id}
+          dataSource={this.state.data}
+          pagination={this.state.pagination}
+          loading={this.state.loading}
+          onChange={this.handleTableChange}
+        />
+      </div>
     );
   }
 }
