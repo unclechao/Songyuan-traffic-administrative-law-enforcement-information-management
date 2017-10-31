@@ -107,12 +107,17 @@ exports.getAdminVehInfoData = (req, res) => {
 
 exports.deleteAdminInfoData = (req, res) => {
   let queryParams = req.body.params;
-  console.log(queryParams);
-
-  
-
-  res.status(500).send({
-    code: 0,
-    message: "服务器内部错误"
+  let queryObj = { _id: { $in: queryParams } };
+  adminVehInfo.remove(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: 0,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 1
+      });
+    }
   });
 };
