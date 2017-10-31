@@ -64,20 +64,43 @@ exports.authValidate = (req, res) => {
 };
 
 exports.getAdminVehInfoData = (req, res) => {
-  console.log(req.body.params);
+  let queryParams = req.body.params;
+  let queryObj = {};
+  let sortObj = {};
+  if (queryParams.vehType && queryParams.vehType.length != 0) {
+    queryObj.$or = [{ vehType: queryParams.vehType }];
+  }
+  if (queryParams.sortField) {
+    sortObj[queryParams.sortField] =
+      queryParams.sortOrder === "ascend" ? 1 : -1;
+  }
 
-  adminVehInfo.find({}, (err, data) => {
+  adminVehInfo.count(queryObj, (err, count) => {
     if (err) {
       res.status(500).send({
         code: 0,
         message: "服务器内部错误"
       });
     } else {
-      res.status(200).send({
-        code: 1,
-        totalCount: 35,
-        data
-      });
+      adminVehInfo
+        .find(queryObj)
+        .sort(sortObj)
+        .skip((queryParams.page - 1) * queryParams.results)
+        .limit(queryParams.results)
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              code: 0,
+              message: "服务器内部错误"
+            });
+          } else {
+            res.status(200).send({
+              code: 1,
+              totalCount: count,
+              data
+            });
+          }
+        });
     }
   });
 };

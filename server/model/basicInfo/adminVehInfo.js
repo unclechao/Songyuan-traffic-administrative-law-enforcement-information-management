@@ -17,27 +17,77 @@ AdminVehInfo.count().exec((err, count) => {
   } else if (count < 1) {
     var initdata = [
       {
-        simNo: "78124335",
+        simNo: "1",
         vehNo: "吉A95425",
         vehType: "大众"
       },
       {
-        simNo: "54623457",
+        simNo: "2",
         vehNo: "吉A755672",
         vehType: "捷达"
       },
       {
-        simNo: "75241346",
+        simNo: "3",
         vehNo: "吉AB2135",
         vehType: "丰田"
       },
       {
-        simNo: "19388474",
+        simNo: "4",
         vehNo: "吉A51372",
         vehType: "捷达"
       },
       {
-        simNo: "79876523",
+        simNo: "5",
+        vehNo: "吉AC0994",
+        vehType: "丰田"
+      },
+      {
+        simNo: "6",
+        vehNo: "吉A95425",
+        vehType: "大众"
+      },
+      {
+        simNo: "7",
+        vehNo: "吉A755672",
+        vehType: "捷达"
+      },
+      {
+        simNo: "8",
+        vehNo: "吉AB2135",
+        vehType: "丰田"
+      },
+      {
+        simNo: "9",
+        vehNo: "吉A51372",
+        vehType: "捷达"
+      },
+      {
+        simNo: "10",
+        vehNo: "吉AC0994",
+        vehType: "丰田"
+      },
+      {
+        simNo: "11",
+        vehNo: "吉A95425",
+        vehType: "大众"
+      },
+      {
+        simNo: "12",
+        vehNo: "吉A755672",
+        vehType: "捷达"
+      },
+      {
+        simNo: "13",
+        vehNo: "吉AB2135",
+        vehType: "丰田"
+      },
+      {
+        simNo: "14",
+        vehNo: "吉A51372",
+        vehType: "捷达"
+      },
+      {
+        simNo: "15",
         vehNo: "吉AC0994",
         vehType: "丰田"
       }
