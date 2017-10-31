@@ -32,9 +32,14 @@ export default class AntdTable extends Component {
     this.state = {
       data: [],
       pagination: {},
-      loading: false
+      loading: false,
+      selectedRowKeys: []
     };
   }
+
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
 
   handleTableChange = (pagination, filters, sorter) => {
     const pager = { ...this.state.pagination };
@@ -88,10 +93,16 @@ export default class AntdTable extends Component {
   }
 
   render() {
+    const rowSelection = {
+      selectedRowKeys: this.state.selectedRowKeys,
+      onChange: this.onSelectChange
+    };
+
     return (
       <Table
         columns={columns}
-        rowKey={record => record.key}
+        rowSelection={rowSelection}
+        rowKey={record => record._id}
         dataSource={this.state.data}
         pagination={this.state.pagination}
         loading={this.state.loading}
