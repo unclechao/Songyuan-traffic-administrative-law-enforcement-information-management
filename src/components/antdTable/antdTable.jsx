@@ -145,7 +145,7 @@ export default class AntdTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteAdminInfoData", {
+    fetch("/api/deleteAdminVehInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
