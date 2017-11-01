@@ -28,7 +28,7 @@ mongoose.connect(constant.MONGODB_CONN_STR, { useMongoClient: true }, err => {
   if (err) {
     console.log(err);
   } else {
-    console.log("Connection %s successfully", constant.MONGODB_CONN_STR);
+    console.log("Connection %s successful", constant.MONGODB_CONN_STR);
   }
 });
 

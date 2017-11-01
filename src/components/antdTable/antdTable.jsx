@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, Button, Popconfirm } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import "./antdTable.css";
 import iziToast from "iziToast";
 import "izitoast/dist/css/iziToast.min.css";

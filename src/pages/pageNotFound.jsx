@@ -13,6 +13,12 @@ export default class PageNotFound extends Component {
               <div className="span12">
                 <div className="hero-unit">
                   <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
                   <h1>
                     <big>
                       <font face="Tahoma" color="red">
