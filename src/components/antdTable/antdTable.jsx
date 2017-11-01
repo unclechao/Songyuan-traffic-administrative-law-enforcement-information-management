@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Button, Popconfirm } from "antd";
+import { Table, Button, Popconfirm, Modal } from "antd";
 import "antd/dist/antd.min.css";
 import "./antdTable.css";
 import iziToast from "iziToast";
@@ -42,7 +42,9 @@ export default class AntdTable extends Component {
       selectedRowKeys: [],
       pagination: {},
       loading: false,
-      disableDel: true
+      disableDel: true,
+      addModalVisible: false,
+      modalConfirmLoading: false
     };
   }
 
@@ -97,6 +99,25 @@ export default class AntdTable extends Component {
     this.fetch();
   }
 
+  showAddModal() {
+    this.setState({ addModalVisible: true });
+  }
+
+  handleModalCancel() {
+    this.setState({ addModalVisible: false });
+  }
+
+  handleModalOk() {
+    this.setState({ modalConfirmLoading: true });
+    // 模拟post执行
+    setTimeout(() => {
+      this.setState({
+        addModalVisible: false,
+        modalConfirmLoading: false
+      });
+    }, 2000);
+  }
+
   handleConfirmDel(e) {
     e.preventDefault();
     fetch("/api/deleteAdminInfoData", {
@@ -147,12 +168,22 @@ export default class AntdTable extends Component {
     return (
       <div>
         <div className="table-operations">
-          <Button>新增</Button>
+          <Button onClick={this.showAddModal.bind(this)}>新增</Button>
+          <Modal
+            title="添加执法车辆"
+            visible={this.state.addModalVisible}
+            onOk={this.handleModalOk.bind(this)}
+            onCancel={this.handleModalCancel.bind(this)}
+            confirmLoading={this.state.modalConfirmLoading}
+          >
+            <p>这里是内容</p>
+          </Modal>
           <Popconfirm
             title="确定删除选中条目?"
             onConfirm={this.handleConfirmDel.bind(this)}
             okText="是的,确定"
             cancelText="不,我再想想"
+            okType="danger"
           >
             <Button disabled={this.state.disableDel}>删除</Button>
           </Popconfirm>
