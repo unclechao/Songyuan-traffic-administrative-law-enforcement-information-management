@@ -24,7 +24,7 @@ export default class AuthComponent extends Component {
             });
           } else {
             if (ret.validate === false) {
-              notification["info"]({
+              notification["warning"]({
                 placement: "bottomRight",
                 message: "提示",
                 description: "ret.message"

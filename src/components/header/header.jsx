@@ -28,7 +28,7 @@ export default class Header extends Component {
       notification["success"]({
         placement: "bottomRight",
         message: "成功",
-        description: "注销成功"
+        description: "您已成功注销"
       });
       this.setState({
         userInfo: "欢迎你,请登录",

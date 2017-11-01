@@ -74,7 +74,7 @@ export default class Login extends Component {
             });
           } else {
             if (ret.validate === false) {
-              notification["info"]({
+              notification["warning"]({
                 placement: "bottomRight",
                 message: "失败",
                 description: ret.message
