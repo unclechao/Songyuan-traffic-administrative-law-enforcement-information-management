@@ -39,7 +39,7 @@ const columns = [
     key: "operation",
     fixed: "right",
     width: 100,
-    render: () => <Button>修改</Button>
+    render: () => <Button>编辑</Button>
   }
 ];
 
