@@ -43,6 +43,10 @@ const columns = [
   }
 ];
 
+message.config({
+  top: 60
+});
+
 export default class AntdTable extends Component {
   constructor(props) {
     super(props);
@@ -118,18 +122,18 @@ export default class AntdTable extends Component {
 
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
-    // 模拟post执行
-    // 获取信息
     const simInput = ReactDOM.findDOMNode(this.refs.simInput).value.trim();
     const noInput = ReactDOM.findDOMNode(this.refs.noInput).value.trim();
-    console.log(`${simInput},${noInput}`);
     console.log(this.state.addSelectValue);
 
     if (simInput === "" || noInput === "" || this.state.addSelectValue === "") {
+      message.warning("请将信息填写完整");
       this.setState({
         modalConfirmLoading: false
       });
     } else {
+      //TODO:post
+
       setTimeout(() => {
         this.setState({
           addModalVisible: false,
@@ -160,6 +164,7 @@ export default class AntdTable extends Component {
               description: "系统异常,请联系管理员"
             });
           } else {
+            message.success("删除成功");
             this.fetch();
           }
         });
