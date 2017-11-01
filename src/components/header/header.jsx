@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Navbar, Nav, MenuItem, NavDropdown } from "react-bootstrap";
-import iziToast from "iziToast";
-import "izitoast/dist/css/iziToast.min.css";
+import { notification } from "antd";
 
 export default class Header extends Component {
   constructor(props) {
@@ -26,11 +25,10 @@ export default class Header extends Component {
       window.localStorage.removeItem("uid");
       window.localStorage.removeItem("username");
       window.localStorage.removeItem("token");
-      iziToast.success({
-        title: "成功",
-        message: "注销成功",
-        transitionIn: "bounceInLeft",
-        transitionOut: "fadeOutRight"
+      notification["success"]({
+        placement: "bottomRight",
+        message: "成功",
+        description: "注销成功"
       });
       this.setState({
         userInfo: "欢迎你,请登录",

@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Table, Button, Popconfirm, Modal, Form, Input, Select } from "antd";
+import {
+  Table,
+  Button,
+  Popconfirm,
+  Modal,
+  Form,
+  Input,
+  Select,
+  notification,
+  message
+} from "antd";
 import "antd/dist/antd.min.css";
 import "./antdTable.css";
-import iziToast from "iziToast";
-import "izitoast/dist/css/iziToast.min.css";
 
 const columns = [
   {
@@ -89,11 +97,10 @@ export default class AntdTable extends Component {
         });
       })
       .catch(err => {
-        iziToast.error({
-          title: "错误",
-          message: "系统异常,请联系管理员",
-          transitionIn: "bounceInLeft",
-          transitionOut: "fadeOutRight"
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
         });
       });
   };
@@ -147,11 +154,10 @@ export default class AntdTable extends Component {
       .then(res => {
         res.json().then(ret => {
           if (ret.code === 0) {
-            iziToast.error({
-              title: "错误",
-              message: "系统异常,请联系管理员",
-              transitionIn: "bounceInLeft",
-              transitionOut: "fadeOutRight"
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
             });
           } else {
             this.fetch();
@@ -159,11 +165,10 @@ export default class AntdTable extends Component {
         });
       })
       .catch(err => {
-        iziToast.error({
-          title: "错误",
-          message: "系统异常,请联系管理员",
-          transitionIn: "bounceInLeft",
-          transitionOut: "fadeOutRight"
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
         });
       });
   }

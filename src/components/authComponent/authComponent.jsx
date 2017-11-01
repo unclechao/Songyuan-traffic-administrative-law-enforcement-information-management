@@ -1,6 +1,5 @@
 import { Component } from "react";
-import iziToast from "iziToast";
-import "izitoast/dist/css/iziToast.min.css";
+import { notification } from "antd";
 
 export default class AuthComponent extends Component {
   constructor(props) {
@@ -18,19 +17,17 @@ export default class AuthComponent extends Component {
       .then(res => {
         res.json().then(ret => {
           if (ret.code === 0) {
-            iziToast.error({
-              title: "错误",
-              message: "系统异常,请联系管理员",
-              transitionIn: "bounceInLeft",
-              transitionOut: "fadeOutRight"
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
             });
           } else {
             if (ret.validate === false) {
-              iziToast.info({
-                title: "提示",
-                message: ret.message,
-                transitionIn: "bounceInLeft",
-                transitionOut: "fadeOutRight"
+              notification["info"]({
+                placement: "bottomRight",
+                message: "提示",
+                description: "ret.message"
               });
               this.props.history.push("/login");
             }
@@ -38,11 +35,10 @@ export default class AuthComponent extends Component {
         });
       })
       .catch(err => {
-        iziToast.error({
-          title: "错误",
-          message: "系统异常,请联系管理员",
-          transitionIn: "bounceInLeft",
-          transitionOut: "fadeOutRight"
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
         });
       });
   }

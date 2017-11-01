@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import jsSHA from "jssha";
-import iziToast from "iziToast";
-import "izitoast/dist/css/iziToast.min.css";
+import { notification } from "antd";
 import "./login.css";
 
 export default class Login extends Component {
@@ -43,77 +42,64 @@ export default class Login extends Component {
       this.refs.passwordInput
     ).value.trim();
 
-    if (usernameInput === "" || passwordInput === "") {
-      iziToast.warning({
-        title: "提示",
-        message: "用户名或密码不能为空",
-        transitionIn: "bounceInLeft",
-        transitionOut: "fadeOutRight"
-      });
-    } else {
-      this.setState((prevState, props) => {
-        return { loginBtnDisable: true };
-      });
+    this.setState((prevState, props) => {
+      return { loginBtnDisable: true };
+    });
 
-      //hash password
-      var shaObj = new jsSHA("SHA-1", "TEXT");
-      shaObj.update(passwordInput);
-      var hashPassword = shaObj.getHash("HEX");
+    //hash password
+    var shaObj = new jsSHA("SHA-1", "TEXT");
+    shaObj.update(passwordInput);
+    var hashPassword = shaObj.getHash("HEX");
 
-      fetch("/api/authorizeLogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: usernameInput,
-          hashPassword: hashPassword
-        })
+    fetch("/api/authorizeLogin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: usernameInput,
+        hashPassword: hashPassword
       })
-        .then(res => {
-          this.setState((prevState, props) => {
-            return { loginBtnDisable: false };
-          });
-          res.json().then(ret => {
-            if (ret.code === 0) {
-              iziToast.error({
-                title: "错误",
-                message: "系统异常,请联系管理员",
-                transitionIn: "bounceInLeft",
-                transitionOut: "fadeOutRight"
+    })
+      .then(res => {
+        this.setState((prevState, props) => {
+          return { loginBtnDisable: false };
+        });
+        res.json().then(ret => {
+          if (ret.code === 0) {
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
+            });
+          } else {
+            if (ret.validate === false) {
+              notification["info"]({
+                placement: "bottomRight",
+                message: "失败",
+                description: ret.message
               });
             } else {
-              if (ret.validate === false) {
-                iziToast.info({
-                  title: "失败",
-                  message: ret.message,
-                  transitionIn: "bounceInLeft",
-                  transitionOut: "fadeOutRight"
-                });
-              } else {
-                window.localStorage["uid"] = ret.uid;
-                window.localStorage["username"] = ret.username;
-                window.localStorage["token"] = ret.token;
-                iziToast.success({
-                  title: "成功",
-                  message: ret.message,
-                  transitionIn: "bounceInLeft",
-                  transitionOut: "fadeOutRight"
-                });
-                this.props.history.push("/main");
-              }
+              window.localStorage["uid"] = ret.uid;
+              window.localStorage["username"] = ret.username;
+              window.localStorage["token"] = ret.token;
+              notification["success"]({
+                placement: "bottomRight",
+                message: "成功",
+                description: ret.message
+              });
+              this.props.history.push("/main");
             }
-          });
-        })
-        .catch(err => {
-          iziToast.error({
-            title: "错误",
-            message: "系统异常,请联系管理员",
-            transitionIn: "bounceInLeft",
-            transitionOut: "fadeOutRight"
-          });
+          }
         });
-    }
+      })
+      .catch(err => {
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
+        });
+      });
   }
 
   handleShowPassword(e) {
