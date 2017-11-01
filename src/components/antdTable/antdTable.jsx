@@ -124,7 +124,6 @@ export default class AntdTable extends Component {
     this.setState({ modalConfirmLoading: true });
     const simInput = ReactDOM.findDOMNode(this.refs.simInput).value.trim();
     const noInput = ReactDOM.findDOMNode(this.refs.noInput).value.trim();
-    console.log(this.state.addSelectValue);
 
     if (simInput === "" || noInput === "" || this.state.addSelectValue === "") {
       message.warning("请将信息填写完整");
@@ -132,14 +131,45 @@ export default class AntdTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      //TODO:post
-
-      setTimeout(() => {
-        this.setState({
-          addModalVisible: false,
-          modalConfirmLoading: false
+      fetch("/api/addAdminVehInfoData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: window.localStorage.token,
+          params: {
+            simInput,
+            noInput,
+            addSelectValue: this.state.addSelectValue
+          }
+        })
+      })
+        .then(res => {
+          res.json().then(ret => {
+            this.setState({
+              addModalVisible: false,
+              modalConfirmLoading: false
+            });
+            if (ret.code === 0) {
+              notification["error"]({
+                placement: "bottomRight",
+                message: "错误",
+                description: "系统异常,请联系管理员"
+              });
+            } else {
+              message.success("添加成功");
+              this.fetch();
+            }
+          });
+        })
+        .catch(err => {
+          notification["error"]({
+            placement: "bottomRight",
+            message: "错误",
+            description: "系统异常,请联系管理员"
+          });
         });
-      }, 2000);
     }
   }
 
