@@ -133,9 +133,9 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
         <section id="login">
           <div className="container">
             <div className="row">

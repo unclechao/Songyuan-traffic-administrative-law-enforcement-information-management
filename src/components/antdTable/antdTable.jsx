@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Table, Button, Popconfirm, Modal } from "antd";
+import ReactDOM from "react-dom";
+import { Table, Button, Popconfirm, Modal, Form, Input, Select } from "antd";
 import "antd/dist/antd.min.css";
 import "./antdTable.css";
 import iziToast from "iziToast";
@@ -44,7 +45,8 @@ export default class AntdTable extends Component {
       loading: false,
       disableDel: true,
       addModalVisible: false,
-      modalConfirmLoading: false
+      modalConfirmLoading: false,
+      addSelectValue: ""
     };
   }
 
@@ -110,12 +112,24 @@ export default class AntdTable extends Component {
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
     // 模拟post执行
-    setTimeout(() => {
+    // 获取信息
+    const simInput = ReactDOM.findDOMNode(this.refs.simInput).value.trim();
+    const noInput = ReactDOM.findDOMNode(this.refs.noInput).value.trim();
+    console.log(`${simInput},${noInput}`);
+    console.log(this.state.addSelectValue);
+
+    if (simInput === "" || noInput === "" || this.state.addSelectValue === "") {
       this.setState({
-        addModalVisible: false,
         modalConfirmLoading: false
       });
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          addModalVisible: false,
+          modalConfirmLoading: false
+        });
+      }, 2000);
+    }
   }
 
   handleConfirmDel(e) {
@@ -154,6 +168,10 @@ export default class AntdTable extends Component {
       });
   }
 
+  handleSelectChange(addSelectValue) {
+    this.setState({ addSelectValue });
+  }
+
   render() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -162,6 +180,17 @@ export default class AntdTable extends Component {
         } else {
           this.setState({ disableDel: true, selectedRowKeys });
         }
+      }
+    };
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 }
       }
     };
 
@@ -176,7 +205,25 @@ export default class AntdTable extends Component {
             onCancel={this.handleModalCancel.bind(this)}
             confirmLoading={this.state.modalConfirmLoading}
           >
-            <p>这里是内容</p>
+            <Form>
+              <Form.Item {...formItemLayout} label="车架号:">
+                <Input placeholder="请输入车架号" ref="simInput" id="simInput" />
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="车牌号:">
+                <Input placeholder="请输入车牌号" ref="noInput" id="noInput" />
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="品牌类型:">
+                <Select
+                  onChange={this.handleSelectChange.bind(this)}
+                  defaultValue="请选择品牌类型..."
+                >
+                  <Select.Option value="大众">大众</Select.Option>
+                  <Select.Option value="捷达">捷达</Select.Option>
+                  <Select.Option value="丰田">丰田</Select.Option>
+                </Select>
+              </Form.Item>
+            </Form>
+            <div id="alertInfo" />
           </Modal>
           <Popconfirm
             title="确定删除选中条目?"
