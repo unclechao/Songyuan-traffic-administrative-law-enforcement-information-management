@@ -170,7 +170,7 @@ export default class AntdTable extends Component {
             } else if (ret.code !== 0) {
               message.warning(ret.message);
             } else {
-              message.success("添加成功");
+              message.success(ret.message);
               this.fetch();
             }
           });

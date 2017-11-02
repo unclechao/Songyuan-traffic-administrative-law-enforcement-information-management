@@ -121,8 +121,6 @@ exports.deleteAdminVehInfoData = (req, res) => {
 
 exports.addAdminVehInfoData = (req, res) => {
   let queryParams = req.body.params;
-  console.log(queryParams);
-
   if (
     queryParams.simInput === "" ||
     queryParams.noInput === "" ||
@@ -133,9 +131,29 @@ exports.addAdminVehInfoData = (req, res) => {
       message: "请求参数错误"
     });
   } else {
+    adminVehInfo.findOneAndUpdate(
+      { simNo: queryParams.simInput },
+      {
+        $set: {
+          simNo: queryParams.simInput,
+          vehNo: queryParams.noInput,
+          vehType: queryParams.addSelectValue
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "添加执法车辆成功"
+          });
+        }
+      }
+    );
   }
-  res.status(500).send({
-    code: -1,
-    message: "服务器内部错误"
-  });
 };
