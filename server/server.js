@@ -52,8 +52,7 @@ apiRoutes.use((req, res, next) => {
       jwt.verify(token, app.get("superSecret"), (err, decoded) => {
         if (err) {
           return res.status(403).send({
-            code: 1,
-            validate: false,
+            code: 1003,
             message: "权限校验失败."
           });
         } else {
@@ -70,8 +69,7 @@ apiRoutes.use((req, res, next) => {
     } else {
       // if there is no token return an error
       return res.status(403).send({
-        code: 1,
-        validate: false,
+        code: 1003,
         message: "权限校验失败."
       });
     }

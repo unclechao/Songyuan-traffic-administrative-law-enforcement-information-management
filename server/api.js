@@ -10,22 +10,19 @@ exports.authorizeLogin = (req, res) => {
     (err, user) => {
       if (err) {
         res.status(500).send({
-          code: 0,
-          validate: false,
+          code: -1,
           message: "服务器内部错误"
         });
       } else {
         if (!user) {
           res.status(200).send({
-            code: 1,
-            validate: false,
+            code: 1001,
             message: "您输入的账号或密码错误,请重试"
           });
         } else {
           if (user.lockState) {
             res.status(200).send({
-              code: 1,
-              validate: false,
+              code: 1002,
               message: "您的账号状态异常,无法登录"
             });
           } else {
@@ -41,7 +38,7 @@ exports.authorizeLogin = (req, res) => {
             );
             // return the information including token as JSON
             res.status(200).send({
-              code: 1,
+              code: 0,
               message: "登录成功",
               validate: true,
               uid: user._id,
@@ -57,7 +54,7 @@ exports.authorizeLogin = (req, res) => {
 
 exports.authValidate = (req, res) => {
   res.status(200).send({
-    code: 1,
+    code: 0,
     message: "权限校验成功.",
     validate: true
   });
@@ -78,7 +75,7 @@ exports.getAdminVehInfoData = (req, res) => {
   adminVehInfo.count(queryObj, (err, count) => {
     if (err) {
       res.status(500).send({
-        code: 0,
+        code: -1,
         message: "服务器内部错误"
       });
     } else {
@@ -90,12 +87,12 @@ exports.getAdminVehInfoData = (req, res) => {
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
-              code: 0,
+              code: -1,
               message: "服务器内部错误"
             });
           } else {
             res.status(200).send({
-              code: 1,
+              code: 0,
               totalCount: count,
               data
             });
@@ -111,12 +108,12 @@ exports.deleteAdminVehInfoData = (req, res) => {
   adminVehInfo.remove(queryObj).exec((err, data) => {
     if (err) {
       res.status(500).send({
-        code: 0,
+        code: -1,
         message: "服务器内部错误"
       });
     } else {
       res.status(200).send({
-        code: 1
+        code: 0
       });
     }
   });
@@ -126,8 +123,19 @@ exports.addAdminVehInfoData = (req, res) => {
   let queryParams = req.body.params;
   console.log(queryParams);
 
+  if (
+    queryParams.simInput === "" ||
+    queryParams.noInput === "" ||
+    queryParams.addSelectValue === ""
+  ) {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+  }
   res.status(500).send({
-    code: 0,
+    code: -1,
     message: "服务器内部错误"
   });
 };

@@ -66,14 +66,14 @@ export default class Login extends Component {
           return { loginBtnDisable: false };
         });
         res.json().then(ret => {
-          if (ret.code === 0) {
+          if (ret.code === -1) {
             notification["error"]({
               placement: "bottomRight",
               message: "错误",
               description: "系统异常,请联系管理员"
             });
           } else {
-            if (ret.validate === false) {
+            if (ret.code !== 0) {
               notification["warning"]({
                 placement: "bottomRight",
                 message: "失败",

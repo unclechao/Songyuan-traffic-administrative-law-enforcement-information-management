@@ -91,13 +91,23 @@ export default class AntdTable extends Component {
     })
       .then(res => {
         res.json().then(ret => {
-          const pagination = { ...this.state.pagination };
-          pagination.total = ret.totalCount;
-          this.setState({
-            loading: false,
-            data: ret.data,
-            pagination
-          });
+          if (ret.code === -1) {
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
+            });
+          } else if (ret.code !== 0) {
+            message.warning(ret.message);
+          } else {
+            const pagination = { ...this.state.pagination };
+            pagination.total = ret.totalCount;
+            this.setState({
+              loading: false,
+              data: ret.data,
+              pagination
+            });
+          }
         });
       })
       .catch(err => {
@@ -151,12 +161,14 @@ export default class AntdTable extends Component {
               addModalVisible: false,
               modalConfirmLoading: false
             });
-            if (ret.code === 0) {
+            if (ret.code === -1) {
               notification["error"]({
                 placement: "bottomRight",
                 message: "错误",
                 description: "系统异常,请联系管理员"
               });
+            } else if (ret.code !== 0) {
+              message.warning(ret.message);
             } else {
               message.success("添加成功");
               this.fetch();
@@ -187,7 +199,7 @@ export default class AntdTable extends Component {
     })
       .then(res => {
         res.json().then(ret => {
-          if (ret.code === 0) {
+          if (ret.code === -1) {
             notification["error"]({
               placement: "bottomRight",
               message: "错误",
