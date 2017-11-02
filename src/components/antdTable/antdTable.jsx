@@ -14,35 +14,6 @@ import {
 import "antd/dist/antd.min.css";
 import "./antdTable.css";
 
-const columns = [
-  {
-    title: "车架号",
-    dataIndex: "simNo",
-    sorter: true
-  },
-  {
-    title: "车牌号",
-    dataIndex: "vehNo",
-    sorter: true
-  },
-  {
-    title: "品牌类型",
-    dataIndex: "vehType",
-    filters: [
-      { text: "大众", value: "大众" },
-      { text: "捷达", value: "捷达" },
-      { text: "丰田", value: "丰田" }
-    ]
-  },
-  {
-    title: "操作",
-    key: "operation",
-    fixed: "right",
-    width: 100,
-    render: () => <Button>编辑</Button>
-  }
-];
-
 message.config({
   top: 60
 });
@@ -58,7 +29,8 @@ export default class AntdTable extends Component {
       disableDel: true,
       addModalVisible: false,
       modalConfirmLoading: false,
-      addSelectValue: ""
+      addSelectValue: "请选择品牌类型...",
+      editRecord: {}
     };
   }
 
@@ -135,7 +107,11 @@ export default class AntdTable extends Component {
     const simInput = ReactDOM.findDOMNode(this.refs.simInput).value.trim();
     const noInput = ReactDOM.findDOMNode(this.refs.noInput).value.trim();
 
-    if (simInput === "" || noInput === "" || this.state.addSelectValue === "") {
+    if (
+      simInput === "" ||
+      noInput === "" ||
+      this.state.addSelectValue === "请选择品牌类型..."
+    ) {
       message.warning("请将信息填写完整");
       this.setState({
         modalConfirmLoading: false
@@ -171,6 +147,9 @@ export default class AntdTable extends Component {
               message.warning(ret.message);
             } else {
               message.success(ret.message);
+              ReactDOM.findDOMNode(this.refs.simInput).value = "";
+              ReactDOM.findDOMNode(this.refs.noInput).value = "";
+              this.setState({ addSelectValue: "请选择品牌类型..." });
               this.fetch();
             }
           });
@@ -183,6 +162,15 @@ export default class AntdTable extends Component {
           });
         });
     }
+  }
+
+  showEditModal() {
+    console.log(this.state.editRecord);
+    //
+  }
+
+  handleTableRowMouseEnter(record, index, event) {
+    this.setState({ editRecord: record });
   }
 
   handleConfirmDel(e) {
@@ -247,6 +235,37 @@ export default class AntdTable extends Component {
       }
     };
 
+    const columns = [
+      {
+        title: "车架号",
+        dataIndex: "simNo",
+        sorter: true
+      },
+      {
+        title: "车牌号",
+        dataIndex: "vehNo",
+        sorter: true
+      },
+      {
+        title: "品牌类型",
+        dataIndex: "vehType",
+        filters: [
+          { text: "大众", value: "大众" },
+          { text: "捷达", value: "捷达" },
+          { text: "丰田", value: "丰田" }
+        ]
+      },
+      {
+        title: "操作",
+        key: "operation",
+        fixed: "right",
+        width: 100,
+        render: () => (
+          <Button onClick={this.showEditModal.bind(this)}>编辑</Button>
+        )
+      }
+    ];
+
     return (
       <div>
         <div className="table-operations">
@@ -268,7 +287,8 @@ export default class AntdTable extends Component {
               <Form.Item {...formItemLayout} label="品牌类型:">
                 <Select
                   onChange={this.handleSelectChange.bind(this)}
-                  defaultValue="请选择品牌类型..."
+                  value={this.state.addSelectValue}
+                  allowClear
                 >
                   <Select.Option value="大众">大众</Select.Option>
                   <Select.Option value="捷达">捷达</Select.Option>
@@ -296,6 +316,7 @@ export default class AntdTable extends Component {
           pagination={this.state.pagination}
           loading={this.state.loading}
           onChange={this.handleTableChange}
+          onRowMouseEnter={this.handleTableRowMouseEnter.bind(this)}
         />
       </div>
     );
