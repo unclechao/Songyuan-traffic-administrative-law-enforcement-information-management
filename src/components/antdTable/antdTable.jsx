@@ -206,6 +206,7 @@ export default class AntdTable extends Component {
               description: "系统异常,请联系管理员"
             });
           } else {
+            this.setState({ disableDel: true });
             message.success("删除成功");
             this.fetch();
           }
