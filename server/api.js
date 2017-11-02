@@ -132,7 +132,7 @@ exports.addAdminVehInfoData = (req, res) => {
     });
   } else {
     adminVehInfo.findOneAndUpdate(
-      { simNo: queryParams.simInput },
+      { _id: queryParams.editId },
       {
         $set: {
           simNo: queryParams.simInput,
@@ -150,7 +150,7 @@ exports.addAdminVehInfoData = (req, res) => {
         } else {
           res.status(200).send({
             code: 0,
-            message: "添加执法车辆成功"
+            message: "操作成功"
           });
         }
       }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import {
   Table,
   Button,
@@ -30,7 +29,10 @@ export default class AntdTable extends Component {
       addModalVisible: false,
       modalConfirmLoading: false,
       addSelectValue: "请选择品牌类型...",
-      editRecord: {}
+      editRecord: {},
+      simInput: "",
+      noInput: "",
+      editId: ""
     };
   }
 
@@ -48,6 +50,7 @@ export default class AntdTable extends Component {
       ...filters
     });
   };
+
   fetch = (params = {}) => {
     this.setState({ loading: true });
 
@@ -90,11 +93,30 @@ export default class AntdTable extends Component {
         });
       });
   };
+
   componentDidMount() {
     this.fetch();
   }
 
-  showAddModal() {
+  simInputChange(e) {
+    this.setState({ simInput: e.target.value });
+  }
+
+  noInputChange(e) {
+    this.setState({ noInput: e.target.value });
+  }
+
+  showModal(type) {
+    if (type === "edit") {
+      this.setState((prevState, props) => ({
+        simInput: prevState.editRecord.simNo,
+        noInput: prevState.editRecord.vehNo,
+        addSelectValue: prevState.editRecord.vehType,
+        editId: prevState.editRecord._id
+      }));
+    } else {
+      this.setState({ editId: "" });
+    }
     this.setState({ addModalVisible: true });
   }
 
@@ -104,8 +126,8 @@ export default class AntdTable extends Component {
 
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
-    const simInput = ReactDOM.findDOMNode(this.refs.simInput).value.trim();
-    const noInput = ReactDOM.findDOMNode(this.refs.noInput).value.trim();
+    const simInput = this.state.simInput;
+    const noInput = this.state.noInput;
 
     if (
       simInput === "" ||
@@ -125,6 +147,7 @@ export default class AntdTable extends Component {
         body: JSON.stringify({
           token: window.localStorage.token,
           params: {
+            editId: this.state.editId,
             simInput,
             noInput,
             addSelectValue: this.state.addSelectValue
@@ -135,7 +158,10 @@ export default class AntdTable extends Component {
           res.json().then(ret => {
             this.setState({
               addModalVisible: false,
-              modalConfirmLoading: false
+              modalConfirmLoading: false,
+              addSelectValue: "请选择品牌类型...",
+              simInput: "",
+              noInput: ""
             });
             if (ret.code === -1) {
               notification["error"]({
@@ -147,9 +173,6 @@ export default class AntdTable extends Component {
               message.warning(ret.message);
             } else {
               message.success(ret.message);
-              ReactDOM.findDOMNode(this.refs.simInput).value = "";
-              ReactDOM.findDOMNode(this.refs.noInput).value = "";
-              this.setState({ addSelectValue: "请选择品牌类型..." });
               this.fetch();
             }
           });
@@ -162,11 +185,6 @@ export default class AntdTable extends Component {
           });
         });
     }
-  }
-
-  showEditModal() {
-    console.log(this.state.editRecord);
-    //
   }
 
   handleTableRowMouseEnter(record, index, event) {
@@ -261,7 +279,7 @@ export default class AntdTable extends Component {
         fixed: "right",
         width: 100,
         render: () => (
-          <Button onClick={this.showEditModal.bind(this)}>编辑</Button>
+          <Button onClick={this.showModal.bind(this, "edit")}>编辑</Button>
         )
       }
     ];
@@ -269,9 +287,9 @@ export default class AntdTable extends Component {
     return (
       <div>
         <div className="table-operations">
-          <Button onClick={this.showAddModal.bind(this)}>新增</Button>
+          <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="添加执法车辆"
+            title="执法车辆"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
@@ -279,16 +297,29 @@ export default class AntdTable extends Component {
           >
             <Form>
               <Form.Item {...formItemLayout} label="车架号:">
-                <Input placeholder="请输入车架号" ref="simInput" id="simInput" />
+                <Input
+                  placeholder="请输入车架号"
+                  ref="simInput"
+                  id="simInput"
+                  name="simInput"
+                  value={this.state.simInput}
+                  onChange={this.simInputChange.bind(this)}
+                />
               </Form.Item>
               <Form.Item {...formItemLayout} label="车牌号:">
-                <Input placeholder="请输入车牌号" ref="noInput" id="noInput" />
+                <Input
+                  placeholder="请输入车牌号"
+                  ref="noInput"
+                  id="noInput"
+                  name="noInput"
+                  value={this.state.noInput}
+                  onChange={this.noInputChange.bind(this)}
+                />
               </Form.Item>
               <Form.Item {...formItemLayout} label="品牌类型:">
                 <Select
                   onChange={this.handleSelectChange.bind(this)}
                   value={this.state.addSelectValue}
-                  allowClear
                 >
                   <Select.Option value="大众">大众</Select.Option>
                   <Select.Option value="捷达">捷达</Select.Option>
