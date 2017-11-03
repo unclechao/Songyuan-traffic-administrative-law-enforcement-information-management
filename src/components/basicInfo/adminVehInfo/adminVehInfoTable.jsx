@@ -274,6 +274,10 @@ export default class AdminVehInfoTable extends Component {
         ]
       },
       {
+        title: "所属机构",
+        dataIndex: "organ"
+      },
+      {
         title: "操作",
         key: "operation",
         fixed: "right",
