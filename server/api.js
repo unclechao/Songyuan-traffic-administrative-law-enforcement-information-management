@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var app = require("./server");
 var user = require("./model/user");
 var adminVehInfo = require("./model/basicInfo/adminVehInfo");
+var adminOrganInfo = require("./model/basicInfo/adminOrganInfo");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -145,7 +146,100 @@ exports.addAdminVehInfoData = (req, res) => {
       { upsert: true },
       (err, doc) => {
         if (err) {
-          console.log(err);
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "操作成功"
+          });
+        }
+      }
+    );
+  }
+};
+
+exports.getAdminOrganInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = {};
+  let sortObj = {};
+  if (queryParams.sortField) {
+    sortObj[queryParams.sortField] =
+      queryParams.sortOrder === "ascend" ? 1 : -1;
+  }
+  adminOrganInfo.count(queryObj, (err, count) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      adminOrganInfo
+        .find(queryObj)
+        .sort(sortObj)
+        .skip((queryParams.page - 1) * queryParams.results)
+        .limit(queryParams.results)
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              code: -1,
+              message: "服务器内部错误"
+            });
+          } else {
+            res.status(200).send({
+              code: 0,
+              totalCount: count,
+              data
+            });
+          }
+        });
+    }
+  });
+};
+
+exports.deleteAdminOrganInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = { _id: { $in: queryParams } };
+  adminOrganInfo.remove(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0
+      });
+    }
+  });
+};
+
+exports.addAdminOrganInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryId = queryParams.editId
+    ? { _id: queryParams.editId }
+    : { _id: mongoose.Types.ObjectId() };
+  if (queryParams.organNo === "" || queryParams.organName === "") {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+    adminOrganInfo.findOneAndUpdate(
+      queryId,
+      {
+        $set: {
+          organNo: queryParams.organNo,
+          organName: queryParams.organName,
+          contactName: queryParams.contactName,
+          contactPhone: queryParams.contactPhone
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
           res.status(500).send({
             code: -1,
             message: "服务器内部错误"

@@ -9,6 +9,6 @@ var adminOrganInfoSchema = new mongoose.Schema({
   editTime: { type: Date, default: Date.now }
 });
 
-var AdminOrganInfo = mongoose.model("AdminVehInfo", adminOrganInfoSchema);
+var AdminOrganInfo = mongoose.model("AdminOrganInfo", adminOrganInfoSchema);
 
 module.exports = AdminOrganInfo;

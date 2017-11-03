@@ -82,6 +82,9 @@ apiRoutes.post("/authValidate", api.authValidate);
 apiRoutes.post("/getAdminVehInfoData", api.getAdminVehInfoData);
 apiRoutes.post("/deleteAdminVehInfoData", api.deleteAdminVehInfoData);
 apiRoutes.post("/addAdminVehInfoData", api.addAdminVehInfoData);
+apiRoutes.post("/getAdminOrganInfoData", api.getAdminOrganInfoData);
+apiRoutes.post("/deleteAdminOrganInfoData", api.deleteAdminOrganInfoData);
+apiRoutes.post("/addAdminOrganInfoData", api.addAdminOrganInfoData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,

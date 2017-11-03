@@ -6,7 +6,6 @@ import {
   Modal,
   Form,
   Input,
-  Select,
   notification,
   message
 } from "antd";
@@ -28,10 +27,11 @@ export default class AdminOrganInfoTable extends Component {
       disableDel: true,
       addModalVisible: false,
       modalConfirmLoading: false,
-      addSelectValue: "请选择品牌类型...",
       editRecord: {},
-      simInput: "",
-      noInput: "",
+      organNo: "",
+      organName: "",
+      contactName: "",
+      contactPhone: "",
       editId: ""
     };
   }
@@ -54,7 +54,7 @@ export default class AdminOrganInfoTable extends Component {
   fetch = (params = {}) => {
     this.setState({ loading: true });
 
-    fetch("/api/getAdminVehInfoData", {
+    fetch("/api/getAdminOrganInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -98,20 +98,26 @@ export default class AdminOrganInfoTable extends Component {
     this.fetch();
   }
 
-  simInputChange(e) {
-    this.setState({ simInput: e.target.value });
+  organNameInputChange(e) {
+    this.setState({ organName: e.target.value });
   }
-
-  noInputChange(e) {
-    this.setState({ noInput: e.target.value });
+  organNoInputChange(e) {
+    this.setState({ organNo: e.target.value });
+  }
+  contactNameInputChange(e) {
+    this.setState({ contactName: e.target.value });
+  }
+  contactPhoneInputChange(e) {
+    this.setState({ contactPhone: e.target.value });
   }
 
   showModal(type) {
     if (type === "edit") {
       this.setState((prevState, props) => ({
-        simInput: prevState.editRecord.simNo,
-        noInput: prevState.editRecord.vehNo,
-        addSelectValue: prevState.editRecord.vehType,
+        organNo: prevState.editRecord.organNo,
+        organName: prevState.editRecord.organName,
+        contactName: prevState.editRecord.contactName,
+        contactPhone: prevState.editRecord.contactPhone,
         editId: prevState.editRecord._id
       }));
     } else {
@@ -126,20 +132,18 @@ export default class AdminOrganInfoTable extends Component {
 
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
-    const simInput = this.state.simInput;
-    const noInput = this.state.noInput;
+    const organNo = this.state.organNo;
+    const organName = this.state.organName;
+    const contactName = this.state.contactName;
+    const contactPhone = this.state.contactPhone;
 
-    if (
-      simInput === "" ||
-      noInput === "" ||
-      this.state.addSelectValue === "请选择品牌类型..."
-    ) {
+    if (organNo === "" || organName === "") {
       message.warning("请将信息填写完整");
       this.setState({
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/addAdminVehInfoData", {
+      fetch("/api/addAdminOrganInfoData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -148,9 +152,10 @@ export default class AdminOrganInfoTable extends Component {
           token: window.localStorage.token,
           params: {
             editId: this.state.editId,
-            simInput,
-            noInput,
-            addSelectValue: this.state.addSelectValue
+            organNo,
+            organName,
+            contactName,
+            contactPhone
           }
         })
       })
@@ -159,9 +164,10 @@ export default class AdminOrganInfoTable extends Component {
             this.setState({
               addModalVisible: false,
               modalConfirmLoading: false,
-              addSelectValue: "请选择品牌类型...",
-              simInput: "",
-              noInput: ""
+              organNo: "",
+              organName: "",
+              contactName: "",
+              contactPhone: ""
             });
             if (ret.code === -1) {
               notification["error"]({
@@ -193,7 +199,7 @@ export default class AdminOrganInfoTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteAdminVehInfoData", {
+    fetch("/api/deleteAdminOrganInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -225,10 +231,6 @@ export default class AdminOrganInfoTable extends Component {
           description: "系统异常,请联系管理员"
         });
       });
-  }
-
-  handleSelectChange(addSelectValue) {
-    this.setState({ addSelectValue });
   }
 
   render() {
@@ -266,11 +268,11 @@ export default class AdminOrganInfoTable extends Component {
       },
       {
         title: "机构联系人",
-        dataIndex: "contactName",
+        dataIndex: "contactName"
       },
       {
         title: "联系人电话",
-        dataIndex: "contactPhone",
+        dataIndex: "contactPhone"
       },
       {
         title: "操作",
@@ -295,36 +297,33 @@ export default class AdminOrganInfoTable extends Component {
             confirmLoading={this.state.modalConfirmLoading}
           >
             <Form>
-              <Form.Item {...formItemLayout} label="车架号:">
+              <Form.Item {...formItemLayout} label="机构编号:">
                 <Input
-                  placeholder="请输入车架号"
-                  id="simInput"
-                  name="simInput"
-                  value={this.state.simInput}
-                  onChange={this.simInputChange.bind(this)}
+                  placeholder="请输入机构编号"
+                  value={this.state.organNo}
+                  onChange={this.organNoInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="车牌号:">
+              <Form.Item {...formItemLayout} label="机构名称:">
                 <Input
-                  placeholder="请输入车牌号"
-                  id="noInput"
-                  name="noInput"
-                  value={this.state.noInput}
-                  onChange={this.noInputChange.bind(this)}
+                  placeholder="请输入机构名称"
+                  value={this.state.organName}
+                  onChange={this.organNameInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="品牌类型:">
-                <Select
-                  onChange={this.handleSelectChange.bind(this)}
-                  value={this.state.addSelectValue}
-                >
-                  <Select.Option value="大众">大众</Select.Option>
-                  <Select.Option value="捷达">捷达</Select.Option>
-                  <Select.Option value="丰田">丰田</Select.Option>
-                </Select>
+              <Form.Item {...formItemLayout} label="机构联系人:">
+                <Input
+                  value={this.state.contactName}
+                  onChange={this.contactNameInputChange.bind(this)}
+                />
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="联系人电话:">
+                <Input
+                  value={this.state.contactPhone}
+                  onChange={this.contactPhoneInputChange.bind(this)}
+                />
               </Form.Item>
             </Form>
-            <div id="alertInfo" />
           </Modal>
           <Popconfirm
             title="确定删除选中条目?"
