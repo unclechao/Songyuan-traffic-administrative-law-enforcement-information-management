@@ -71,7 +71,6 @@ exports.getAdminVehInfoData = (req, res) => {
     sortObj[queryParams.sortField] =
       queryParams.sortOrder === "ascend" ? 1 : -1;
   }
-
   adminVehInfo.count(queryObj, (err, count) => {
     if (err) {
       res.status(500).send({
@@ -121,7 +120,9 @@ exports.deleteAdminVehInfoData = (req, res) => {
 
 exports.addAdminVehInfoData = (req, res) => {
   let queryParams = req.body.params;
-  let queryId = queryParams._id ? { _id: queryParams.editId } : {};
+  let queryId = queryParams.editId
+    ? { _id: queryParams.editId }
+    : { _id: mongoose.Types.ObjectId() };
   if (
     queryParams.simInput === "" ||
     queryParams.noInput === "" ||

@@ -11,13 +11,13 @@ import {
   message
 } from "antd";
 import "antd/dist/antd.min.css";
-import "./adminVehInfoTable.css";
+import "./adminOrganInfoTable.css";
 
 message.config({
   top: 60
 });
 
-export default class AdminVehInfoTable extends Component {
+export default class AdminOrganInfoTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -255,23 +255,22 @@ export default class AdminVehInfoTable extends Component {
 
     const columns = [
       {
-        title: "车架号",
-        dataIndex: "simNo",
+        title: "机构编号",
+        dataIndex: "organNo",
         sorter: true
       },
       {
-        title: "车牌号",
-        dataIndex: "vehNo",
+        title: "机构名称",
+        dataIndex: "organName",
         sorter: true
       },
       {
-        title: "品牌类型",
-        dataIndex: "vehType",
-        filters: [
-          { text: "大众", value: "大众" },
-          { text: "捷达", value: "捷达" },
-          { text: "丰田", value: "丰田" }
-        ]
+        title: "机构联系人",
+        dataIndex: "contactName",
+      },
+      {
+        title: "联系人电话",
+        dataIndex: "contactPhone",
       },
       {
         title: "操作",
@@ -289,7 +288,7 @@ export default class AdminVehInfoTable extends Component {
         <div className="table-operations">
           <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="执法车辆"
+            title="执法机构"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
@@ -299,6 +298,8 @@ export default class AdminVehInfoTable extends Component {
               <Form.Item {...formItemLayout} label="车架号:">
                 <Input
                   placeholder="请输入车架号"
+                  id="simInput"
+                  name="simInput"
                   value={this.state.simInput}
                   onChange={this.simInputChange.bind(this)}
                 />
@@ -306,6 +307,8 @@ export default class AdminVehInfoTable extends Component {
               <Form.Item {...formItemLayout} label="车牌号:">
                 <Input
                   placeholder="请输入车牌号"
+                  id="noInput"
+                  name="noInput"
                   value={this.state.noInput}
                   onChange={this.noInputChange.bind(this)}
                 />
