@@ -11,13 +11,13 @@ import {
   message
 } from "antd";
 import "antd/dist/antd.min.css";
-import "./antdTable.css";
+import "./adminVehInfoTable.css";
 
 message.config({
   top: 60
 });
 
-export default class AntdTable extends Component {
+export default class AdminVehInfoTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
