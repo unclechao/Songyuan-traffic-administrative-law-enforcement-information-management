@@ -102,7 +102,7 @@ export default class Login extends Component {
       });
   }
 
-  handleShowPassword(e) {
+  handleShowPassword() {
     if (this.state.passwordInputType === "password") {
       this.setState({
         passwordInputType: "text",
@@ -150,7 +150,7 @@ export default class Login extends Component {
                     </div>
                     <div
                       className={this.state.checkboxClass}
-                      onClick={this.handleShowPassword}
+                      onClick={this.handleShowPassword.bind(this)}
                     >
                       <span className="character-checkbox" />
                       <span className="label">显示密码</span>

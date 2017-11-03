@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Main from "../components/main/main";
-import AdminVehInfoTable from "../components/basicInfo/adminVehInfo/adminVehInfoTable";
+import Main from "../../components/system/main/main";
+import AdminVehInfoTable from "../../components/basicInfo/adminVehInfo/adminVehInfoTable";
 
 export default class AdminVehInfoPage extends Component {
   render() {

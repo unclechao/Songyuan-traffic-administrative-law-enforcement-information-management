@@ -4,8 +4,8 @@ import createBrowserHistory from "history/createBrowserHistory";
 import LoginPage from "./pages/loginPage";
 import PageNotFound from "./pages/pageNotFound";
 import MainFrame from "./pages/mainFrame";
-import AdminOrganInfoPage from "./pages/adminOrganInfoPage";
-import AdminVehInfoPage from "./pages/adminVehInfoPage";
+import AdminOrganInfoPage from "./pages/basicInfo/adminOrganInfoPage";
+import AdminVehInfoPage from "./pages/basicInfo/adminVehInfoPage";
 
 const history = createBrowserHistory();
 

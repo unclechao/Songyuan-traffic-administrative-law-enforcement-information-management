@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Header from "../components/header/header";
-import Footer from "../components/footer/footer";
+import Header from "../components/system/header/header";
+import Footer from "../components/system/footer/footer";
 
 export default class PageNotFound extends Component {
   render() {

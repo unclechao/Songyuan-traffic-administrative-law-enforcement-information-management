@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Header from "../components/header/header";
-import Login from "../components/login/login";
-import Footer from "../components/footer/footer";
+import Header from "../components/system/header/header";
+import Login from "../components/system/login/login";
+import Footer from "../components/system/footer/footer";
 
 export default class LoginPage extends Component {
   render() {
