@@ -121,6 +121,7 @@ exports.deleteAdminVehInfoData = (req, res) => {
 
 exports.addAdminVehInfoData = (req, res) => {
   let queryParams = req.body.params;
+  let queryId = queryParams._id ? { _id: queryParams.editId } : {};
   if (
     queryParams.simInput === "" ||
     queryParams.noInput === "" ||
@@ -132,7 +133,7 @@ exports.addAdminVehInfoData = (req, res) => {
     });
   } else {
     adminVehInfo.findOneAndUpdate(
-      { _id: queryParams.editId },
+      queryId,
       {
         $set: {
           simNo: queryParams.simInput,
@@ -143,6 +144,7 @@ exports.addAdminVehInfoData = (req, res) => {
       { upsert: true },
       (err, doc) => {
         if (err) {
+          console.log(err);
           res.status(500).send({
             code: -1,
             message: "服务器内部错误"
