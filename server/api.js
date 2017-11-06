@@ -271,3 +271,7 @@ exports.getAdminOrganInfoNameList = (req, res) => {
     }
   });
 };
+
+exports.getAdminPeopleInfoData = (req, res) => {};
+exports.deleteAdminPeopleInfoData = (req, res) => {};
+exports.addAdminPeopleInfoData = (req, res) => {};
