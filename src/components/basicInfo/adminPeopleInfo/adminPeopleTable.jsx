@@ -28,11 +28,12 @@ export default class AdminPeopleInfoTable extends Component {
       disableDel: true,
       addModalVisible: false,
       modalConfirmLoading: false,
-      addSelectValue: "请选择品牌类型...",
+      addSexSelectValue: "请选择性别...",
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
-      simInput: "",
+      phoneInput: "",
       noInput: "",
+      nameInput: "",
       editId: "",
       organNameList: []
     };
@@ -87,7 +88,7 @@ export default class AdminPeopleInfoTable extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true });
-    fetch("/api/getAdminVehInfoData", {
+    fetch("/api/getAdminPeopleInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -131,20 +132,33 @@ export default class AdminPeopleInfoTable extends Component {
     this.fetch();
   }
 
-  simInputChange(e) {
-    this.setState({ simInput: e.target.value });
+  nameInputChange(e) {
+    this.setState({ nameInput: e.target.value });
   }
 
   noInputChange(e) {
     this.setState({ noInput: e.target.value });
   }
 
+  phoneInputChange(e) {
+    this.setState({ phoneInput: e.target.value });
+  }
+
+  handleOrganSelectChange(addOrganSelectValue) {
+    this.setState({ addOrganSelectValue });
+  }
+
+  handleSexSelectChange(addSexSelectValue) {
+    this.setState({ addSexSelectValue });
+  }
+
   showModal(type) {
     if (type === "edit") {
       this.setState((prevState, props) => ({
-        simInput: prevState.editRecord.simNo,
-        noInput: prevState.editRecord.vehNo,
-        addSelectValue: prevState.editRecord.vehType,
+        nameInput: prevState.editRecord.name,
+        noInput: prevState.editRecord.no,
+        phoneInput: prevState.editRecord.phone,
+        addSexSelectValue: prevState.editRecord.sex,
         addOrganSelectValue: prevState.editRecord.organ,
         editId: prevState.editRecord._id
       }));
@@ -160,13 +174,14 @@ export default class AdminPeopleInfoTable extends Component {
 
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
-    const simInput = this.state.simInput;
+    const nameInput = this.state.nameInput;
     const noInput = this.state.noInput;
+    const phoneInput = this.state.phoneInput;
 
     if (
-      simInput === "" ||
+      nameInput === "" ||
       noInput === "" ||
-      this.state.addSelectValue === "请选择品牌类型..." ||
+      this.state.addSexSelectValue === "请选择性别..." ||
       this.state.addOrganSelectValue === "请选择所属机构..."
     ) {
       message.warning("请将信息填写完整");
@@ -174,7 +189,7 @@ export default class AdminPeopleInfoTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/addAdminVehInfoData", {
+      fetch("/api/addAdminPeopleInfoData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -183,9 +198,10 @@ export default class AdminPeopleInfoTable extends Component {
           token: window.localStorage.token,
           params: {
             editId: this.state.editId,
-            simInput,
+            nameInput,
             noInput,
-            addSelectValue: this.state.addSelectValue,
+            phoneInput,
+            addSexSelectValue: this.state.addSexSelectValue,
             addOrganSelectValue: this.state.addOrganSelectValue
           }
         })
@@ -199,10 +215,11 @@ export default class AdminPeopleInfoTable extends Component {
               () => {
                 this.setState({
                   modalConfirmLoading: false,
-                  addSelectValue: "请选择品牌类型...",
+                  addSexSelectValue: "请选择性别...",
                   addOrganSelectValue: "请选择所属机构...",
-                  simInput: "",
-                  noInput: ""
+                  nameInput: "",
+                  noInput: "",
+                  phoneInput: ""
                 });
               }
             );
@@ -236,7 +253,7 @@ export default class AdminPeopleInfoTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteAdminVehInfoData", {
+    fetch("/api/deleteAdminPeopleInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -270,14 +287,6 @@ export default class AdminPeopleInfoTable extends Component {
       });
   }
 
-  handleSelectChange(addSelectValue) {
-    this.setState({ addSelectValue });
-  }
-
-  handleOrganSelectChange(addOrganSelectValue) {
-    this.setState({ addOrganSelectValue });
-  }
-
   render() {
     const organNameList = this.state.organNameList;
 
@@ -304,18 +313,23 @@ export default class AdminPeopleInfoTable extends Component {
 
     const columns = [
       {
+        title: "工号",
+        dataIndex: "no",
+        sorter: true
+      },
+      {
         title: "姓名",
         dataIndex: "name",
         sorter: true
       },
       {
         title: "性别",
-        dataIndex: "age",
-        sorter: true
+        dataIndex: "sex",
+        filters: [{ text: "男", value: "男" }, { text: "女", value: "女" }]
       },
       {
         title: "电话",
-        dataIndex: "vehType",
+        dataIndex: "phone"
       },
       {
         title: "所属机构",
@@ -337,36 +351,42 @@ export default class AdminPeopleInfoTable extends Component {
         <div className="table-operations">
           <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="执法车辆"
+            title="执法人员"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
             confirmLoading={this.state.modalConfirmLoading}
           >
             <Form>
-              <Form.Item {...formItemLayout} label="车架号:">
+              <Form.Item {...formItemLayout} label="工号:">
                 <Input
-                  placeholder="请输入车架号"
-                  value={this.state.simInput}
-                  onChange={this.simInputChange.bind(this)}
-                />
-              </Form.Item>
-              <Form.Item {...formItemLayout} label="车牌号:">
-                <Input
-                  placeholder="请输入车牌号"
+                  placeholder="请输入工号"
                   value={this.state.noInput}
                   onChange={this.noInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="品牌类型:">
+              <Form.Item {...formItemLayout} label="姓名:">
+                <Input
+                  placeholder="请输入姓名"
+                  value={this.state.nameInput}
+                  onChange={this.nameInputChange.bind(this)}
+                />
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="性别:">
                 <Select
-                  onChange={this.handleSelectChange.bind(this)}
-                  value={this.state.addSelectValue}
+                  onChange={this.handleSexSelectChange.bind(this)}
+                  value={this.state.addSexSelectValue}
                 >
-                  <Select.Option value="大众">大众</Select.Option>
-                  <Select.Option value="捷达">捷达</Select.Option>
-                  <Select.Option value="丰田">丰田</Select.Option>
+                  <Select.Option value="男">男</Select.Option>
+                  <Select.Option value="女">女</Select.Option>
                 </Select>
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="联系电话:">
+                <Input
+                  placeholder="请输入联系电话"
+                  value={this.state.phoneInput}
+                  onChange={this.phoneInputChange.bind(this)}
+                />
               </Form.Item>
               <Form.Item {...formItemLayout} label="所属机构:">
                 <Select
@@ -381,7 +401,6 @@ export default class AdminPeopleInfoTable extends Component {
                 </Select>
               </Form.Item>
             </Form>
-            <div id="alertInfo" />
           </Modal>
           <Popconfirm
             title="确定删除选中条目?"

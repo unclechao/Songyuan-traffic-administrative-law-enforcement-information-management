@@ -274,8 +274,104 @@ exports.getAdminOrganInfoNameList = (req, res) => {
 };
 
 exports.getAdminPeopleInfoData = (req, res) => {
-  
+  let queryParams = req.body.params;
+  let queryObj = {};
+  let sortObj = {};
+  if (queryParams.sex && queryParams.sex.length != 0) {
+    queryObj.$or = [{ sex: queryParams.sex }];
+  }
+  if (queryParams.sortField) {
+    sortObj[queryParams.sortField] =
+      queryParams.sortOrder === "ascend" ? 1 : -1;
+  }
+  adminPeopleInfo.count(queryObj, (err, count) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      adminPeopleInfo
+        .find(queryObj)
+        .sort(sortObj)
+        .skip((queryParams.page - 1) * queryParams.results)
+        .limit(queryParams.results)
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              code: -1,
+              message: "服务器内部错误"
+            });
+          } else {
+            res.status(200).send({
+              code: 0,
+              totalCount: count,
+              data
+            });
+          }
+        });
+    }
+  });
 };
-exports.deleteAdminPeopleInfoData = (req, res) => {};
-exports.addAdminPeopleInfoData = (req, res) => {};
 
+exports.deleteAdminPeopleInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = { _id: { $in: queryParams } };
+  adminPeopleInfo.remove(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0
+      });
+    }
+  });
+};
+
+exports.addAdminPeopleInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryId = queryParams.editId
+    ? { _id: queryParams.editId }
+    : { _id: mongoose.Types.ObjectId() };
+  if (
+    queryParams.nameInput === "" ||
+    queryParams.noInput === "" ||
+    queryParams.addSexSelectValue === "" ||
+    queryParams.addOrganSelectValue === ""
+  ) {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+    adminPeopleInfo.findOneAndUpdate(
+      queryId,
+      {
+        $set: {
+          no: queryParams.noInput,
+          name: queryParams.nameInput,
+          sex: queryParams.addSexSelectValue,
+          phone: queryParams.phoneInput,
+          organ: queryParams.addOrganSelectValue
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "操作成功"
+          });
+        }
+      }
+    );
+  }
+};
