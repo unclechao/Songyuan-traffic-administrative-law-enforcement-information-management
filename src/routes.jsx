@@ -6,6 +6,7 @@ import PageNotFound from "./pages/pageNotFound";
 import MainFrame from "./pages/mainFrame";
 import AdminOrganInfoPage from "./pages/basicInfo/adminOrganInfoPage";
 import AdminVehInfoPage from "./pages/basicInfo/adminVehInfoPage";
+import AdminPeopleInfoPage from "./pages/basicInfo/adminPeopleInfoPage";
 
 const history = createBrowserHistory();
 
@@ -20,6 +21,7 @@ export default class R extends Component {
             <Route path="/main" component={MainFrame} />
             <Route path="/adminOrganInfo:keyId" component={AdminOrganInfoPage} />
             <Route path="/adminVehInfo:keyId" component={AdminVehInfoPage} />
+            <Route path="/adminPeopleInfo:keyId" component={AdminPeopleInfoPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>
