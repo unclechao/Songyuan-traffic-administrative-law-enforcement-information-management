@@ -4,6 +4,7 @@ var app = require("./server");
 var user = require("./model/user");
 var adminVehInfo = require("./model/basicInfo/adminVehInfo");
 var adminOrganInfo = require("./model/basicInfo/adminOrganInfo");
+var adminPeopleInfo = require("./model/basicInfo/adminPeopleInfo");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -272,6 +273,9 @@ exports.getAdminOrganInfoNameList = (req, res) => {
   });
 };
 
-exports.getAdminPeopleInfoData = (req, res) => {};
+exports.getAdminPeopleInfoData = (req, res) => {
+  
+};
 exports.deleteAdminPeopleInfoData = (req, res) => {};
 exports.addAdminPeopleInfoData = (req, res) => {};
+

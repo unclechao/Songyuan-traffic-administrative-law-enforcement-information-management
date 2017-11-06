@@ -304,23 +304,18 @@ export default class AdminPeopleInfoTable extends Component {
 
     const columns = [
       {
-        title: "车架号",
-        dataIndex: "simNo",
+        title: "姓名",
+        dataIndex: "name",
         sorter: true
       },
       {
-        title: "车牌号",
-        dataIndex: "vehNo",
+        title: "性别",
+        dataIndex: "age",
         sorter: true
       },
       {
-        title: "品牌类型",
+        title: "电话",
         dataIndex: "vehType",
-        filters: [
-          { text: "大众", value: "大众" },
-          { text: "捷达", value: "捷达" },
-          { text: "丰田", value: "丰田" }
-        ]
       },
       {
         title: "所属机构",
