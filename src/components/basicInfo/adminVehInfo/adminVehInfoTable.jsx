@@ -29,11 +29,45 @@ export default class AdminVehInfoTable extends Component {
       addModalVisible: false,
       modalConfirmLoading: false,
       addSelectValue: "请选择品牌类型...",
+      addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
       simInput: "",
       noInput: "",
-      editId: ""
+      editId: "",
+      organNameList: []
     };
+    // init vehicle organ
+    fetch("/api/getAdminOrganInfoNameList", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: window.localStorage.token
+      })
+    })
+      .then(res => {
+        res.json().then(ret => {
+          if (ret.code === -1) {
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
+            });
+          } else if (ret.code !== 0) {
+            message.warning(ret.message);
+          } else {
+            this.setState({ organNameList: ret.data });
+          }
+        });
+      })
+      .catch(err => {
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
+        });
+      });
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -53,7 +87,6 @@ export default class AdminVehInfoTable extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true });
-
     fetch("/api/getAdminVehInfoData", {
       method: "POST",
       headers: {
@@ -112,6 +145,7 @@ export default class AdminVehInfoTable extends Component {
         simInput: prevState.editRecord.simNo,
         noInput: prevState.editRecord.vehNo,
         addSelectValue: prevState.editRecord.vehType,
+        addOrganSelectValue: prevState.editRecord.organ,
         editId: prevState.editRecord._id
       }));
     } else {
@@ -132,7 +166,8 @@ export default class AdminVehInfoTable extends Component {
     if (
       simInput === "" ||
       noInput === "" ||
-      this.state.addSelectValue === "请选择品牌类型..."
+      this.state.addSelectValue === "请选择品牌类型..." ||
+      this.state.addOrganSelectValue === "请选择所属机构..."
     ) {
       message.warning("请将信息填写完整");
       this.setState({
@@ -150,19 +185,27 @@ export default class AdminVehInfoTable extends Component {
             editId: this.state.editId,
             simInput,
             noInput,
-            addSelectValue: this.state.addSelectValue
+            addSelectValue: this.state.addSelectValue,
+            addOrganSelectValue: this.state.addOrganSelectValue
           }
         })
       })
         .then(res => {
           res.json().then(ret => {
-            this.setState({
-              addModalVisible: false,
-              modalConfirmLoading: false,
-              addSelectValue: "请选择品牌类型...",
-              simInput: "",
-              noInput: ""
-            });
+            this.setState(
+              {
+                addModalVisible: false
+              },
+              () => {
+                this.setState({
+                  modalConfirmLoading: false,
+                  addSelectValue: "请选择品牌类型...",
+                  addOrganSelectValue: "请选择所属机构...",
+                  simInput: "",
+                  noInput: ""
+                });
+              }
+            );
             if (ret.code === -1) {
               notification["error"]({
                 placement: "bottomRight",
@@ -231,7 +274,13 @@ export default class AdminVehInfoTable extends Component {
     this.setState({ addSelectValue });
   }
 
+  handleOrganSelectChange(addOrganSelectValue) {
+    this.setState({ addOrganSelectValue });
+  }
+
   render() {
+    const organNameList = this.state.organNameList;
+
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         if (selectedRowKeys.length > 0) {
@@ -322,6 +371,18 @@ export default class AdminVehInfoTable extends Component {
                   <Select.Option value="大众">大众</Select.Option>
                   <Select.Option value="捷达">捷达</Select.Option>
                   <Select.Option value="丰田">丰田</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="所属机构:">
+                <Select
+                  onChange={this.handleOrganSelectChange.bind(this)}
+                  value={this.state.addOrganSelectValue}
+                >
+                  {organNameList.map(d => (
+                    <Select.Option key={d._id} value={d.organName}>
+                      {d.organName}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Form>

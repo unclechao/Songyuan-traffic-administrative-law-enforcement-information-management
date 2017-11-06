@@ -140,7 +140,8 @@ exports.addAdminVehInfoData = (req, res) => {
         $set: {
           simNo: queryParams.simInput,
           vehNo: queryParams.noInput,
-          vehType: queryParams.addSelectValue
+          vehType: queryParams.addSelectValue,
+          organ: queryParams.addOrganSelectValue
         }
       },
       { upsert: true },
@@ -253,4 +254,20 @@ exports.addAdminOrganInfoData = (req, res) => {
       }
     );
   }
+};
+
+exports.getAdminOrganInfoNameList = (req, res) => {
+  adminOrganInfo.find({}, "organName").exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0,
+        data
+      });
+    }
+  });
 };
