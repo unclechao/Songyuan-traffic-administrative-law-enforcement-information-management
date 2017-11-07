@@ -1,0 +1,11 @@
+.table-operations {
+    margin-bottom: 16px;
+  }
+  .table-operations > button {
+    margin-right: 8px;
+  }
+  th.column-money,
+  td.column-money {
+    text-align: right !important;
+  }
+  
