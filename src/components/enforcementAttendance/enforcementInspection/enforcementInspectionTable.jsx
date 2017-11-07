@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Select,
+  DatePicker,
   notification,
   message
 } from "antd";
@@ -30,9 +31,9 @@ export default class EnforcementInspectionTable extends Component {
       modalConfirmLoading: false,
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
-      countInput: 0,
-      noInput: "",
-      nameInput: "",
+      dateInput: "",
+      locationInput: "",
+      checkObject: "",
       editId: "",
       organNameList: []
     };
@@ -131,16 +132,18 @@ export default class EnforcementInspectionTable extends Component {
     this.fetch();
   }
 
-  nameInputChange(e) {
-    this.setState({ nameInput: e.target.value });
+  locationInputChange(e) {
+    this.setState({ locationInput: e.target.value });
   }
 
-  noInputChange(e) {
-    this.setState({ noInput: e.target.value });
+  dateInputChange(date, dateString) {
+    console.log(date);
+    console.log(dateString);
+    this.setState({ dateInput: date });
   }
 
-  countInputChange(v) {
-    if (Number(v)) this.setState({ countInput: v });
+  checkObjectInputChange(e) {
+    this.setState({ checkObject: e.target.value });
   }
 
   handleOrganSelectChange(addOrganSelectValue) {
@@ -346,24 +349,24 @@ export default class EnforcementInspectionTable extends Component {
           >
             <Form>
               <Form.Item {...formItemLayout} label="检查时间:">
-                <Input
-                  placeholder="请输入装备编号"
-                  value={this.state.noInput}
-                  onChange={this.noInputChange.bind(this)}
+                <DatePicker
+                  style={{width : "285px"}}
+                  value={this.state.dateInput}
+                  onChange={this.dateInputChange.bind(this)}
                 />
               </Form.Item>
               <Form.Item {...formItemLayout} label="地点:">
                 <Input
                   placeholder="请输入执法检查地点"
-                  value={this.state.nameInput}
-                  onChange={this.nameInputChange.bind(this)}
+                  value={this.state.locationInput}
+                  onChange={this.locationInputChange.bind(this)}
                 />
               </Form.Item>
               <Form.Item {...formItemLayout} label="检查对象:">
                 <Input
                   placeholder="请输入检查对象"
-                  value={this.state.countInput}
-                  onChange={this.countInputChange.bind(this)}
+                  value={this.state.checkObject}
+                  onChange={this.checkObjectInputChange.bind(this)}
                 />
               </Form.Item>
               <Form.Item {...formItemLayout} label="检查机构:">
