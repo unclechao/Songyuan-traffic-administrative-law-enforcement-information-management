@@ -18,7 +18,6 @@ export default class AntdMenu extends Component {
   }
 
   handleMenuClick = e => {
-    //console.log("click ", e);
     this.props.history.push(e.key);
   };
 
@@ -69,7 +68,7 @@ export default class AntdMenu extends Component {
           }
         >
           <Menu.Item key="21">出勤信息</Menu.Item>
-          <Menu.Item key="22">执法检查</Menu.Item>
+          <Menu.Item key="enforcementInspectionPage:2">执法检查</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
           key="3"

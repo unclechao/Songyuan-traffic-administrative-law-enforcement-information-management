@@ -11,7 +11,7 @@ import {
   message
 } from "antd";
 import "antd/dist/antd.min.css";
-import "./adminVehInfoTable.css";
+import "../../../styles/antdTable.css";
 
 message.config({
   top: 60
