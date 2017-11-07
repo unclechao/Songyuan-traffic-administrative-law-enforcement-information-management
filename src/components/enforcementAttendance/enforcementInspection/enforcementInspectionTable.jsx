@@ -7,7 +7,6 @@ import {
   Form,
   Input,
   Select,
-  InputNumber,
   notification,
   message
 } from "antd";
@@ -88,7 +87,7 @@ export default class EnforcementInspectionTable extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true });
-    fetch("/api/getAdminEquipmentInfoData", {
+    fetch("/api/getEnforcementInspectionData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -183,7 +182,7 @@ export default class EnforcementInspectionTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/addAdminEquipmentInfoData", {
+      fetch("/api/addEnforcementInspectionData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -245,7 +244,7 @@ export default class EnforcementInspectionTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteAdminEquipmentInfoData", {
+    fetch("/api/deleteEnforcementInspectionData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -476,7 +476,7 @@ exports.addAdminEquipmentInfoData = (req, res) => {
   }
 };
 
-exports.getEnforcementInspectionData = (res, req) => {
+exports.getEnforcementInspectionData = (req, res) => {
   let queryParams = req.body.params;
   let queryObj = {};
   let sortObj = {};
