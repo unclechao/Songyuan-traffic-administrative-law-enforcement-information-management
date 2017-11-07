@@ -31,7 +31,7 @@ export default class AdminEquipmentInfoTable extends Component {
       modalConfirmLoading: false,
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
-      countInput: "",
+      countInput: 0,
       noInput: "",
       nameInput: "",
       editId: "",
@@ -88,7 +88,7 @@ export default class AdminEquipmentInfoTable extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true });
-    fetch("/api/getAdminPeopleInfoData", {
+    fetch("/api/getAdminEquipmentInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -141,7 +141,7 @@ export default class AdminEquipmentInfoTable extends Component {
   }
 
   countInputChange(v) {
-    this.setState({ countInput: v });
+    if (Number(v)) this.setState({ countInput: v });
   }
 
   handleOrganSelectChange(addOrganSelectValue) {
@@ -173,6 +173,8 @@ export default class AdminEquipmentInfoTable extends Component {
     const noInput = this.state.noInput;
     const countInput = this.state.countInput;
 
+    alert(countInput);
+
     if (
       nameInput === "" ||
       noInput === "" ||
@@ -183,7 +185,7 @@ export default class AdminEquipmentInfoTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/addAdminPeopleInfoData", {
+      fetch("/api/addAdminEquipmentInfoData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -195,7 +197,6 @@ export default class AdminEquipmentInfoTable extends Component {
             nameInput,
             noInput,
             countInput,
-            addSexSelectValue: this.state.addSexSelectValue,
             addOrganSelectValue: this.state.addOrganSelectValue
           }
         })
@@ -246,7 +247,7 @@ export default class AdminEquipmentInfoTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteAdminPeopleInfoData", {
+    fetch("/api/deleteAdminEquipmentInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

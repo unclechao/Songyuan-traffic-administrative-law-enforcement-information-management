@@ -89,6 +89,9 @@ apiRoutes.post("/getAdminOrganInfoNameList", api.getAdminOrganInfoNameList);
 apiRoutes.post("/getAdminPeopleInfoData", api.getAdminPeopleInfoData);
 apiRoutes.post("/deleteAdminPeopleInfoData", api.deleteAdminPeopleInfoData);
 apiRoutes.post("/addAdminPeopleInfoData", api.addAdminPeopleInfoData);
+apiRoutes.post("/getAdminEquipmentInfoData", api.getAdminEquipmentInfoData);
+apiRoutes.post("/deleteAdminEquipmentInfoData", api.deleteAdminEquipmentInfoData);
+apiRoutes.post("/addAdminEquipmentInfoData", api.addAdminEquipmentInfoData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,
