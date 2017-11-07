@@ -173,8 +173,6 @@ export default class AdminEquipmentInfoTable extends Component {
     const noInput = this.state.noInput;
     const countInput = this.state.countInput;
 
-    alert(countInput);
-
     if (
       nameInput === "" ||
       noInput === "" ||
