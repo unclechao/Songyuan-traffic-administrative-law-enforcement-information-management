@@ -6,6 +6,7 @@ var adminVehInfo = require("./model/basicInfo/adminVehInfo");
 var adminOrganInfo = require("./model/basicInfo/adminOrganInfo");
 var adminPeopleInfo = require("./model/basicInfo/adminPeopleInfo");
 var adminEquipmentInfo = require("./model/basicInfo/adminEquipmentInfo");
+var enforcementInspection = require("./model/enforcementAttendance/enforcementInspection");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -473,4 +474,102 @@ exports.addAdminEquipmentInfoData = (req, res) => {
       }
     );
   }
+};
+
+exports.getEnforcementInspectionData = (res, req) => {
+  let queryParams = req.body.params;
+  let queryObj = {};
+  let sortObj = {};
+  if (queryParams.sortField) {
+    sortObj[queryParams.sortField] =
+      queryParams.sortOrder === "ascend" ? 1 : -1;
+  }
+  enforcementInspection.count(queryObj, (err, count) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      enforcementInspection
+        .find(queryObj)
+        .sort(sortObj)
+        .skip((queryParams.page - 1) * queryParams.results)
+        .limit(queryParams.results)
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              code: -1,
+              message: "服务器内部错误"
+            });
+          } else {
+            res.status(200).send({
+              code: 0,
+              totalCount: count,
+              data
+            });
+          }
+        });
+    }
+  });
+};
+
+exports.addEnforcementInspectionData = (res, req) => {
+  let queryParams = req.body.params;
+  let queryId = queryParams.editId
+    ? { _id: queryParams.editId }
+    : { _id: mongoose.Types.ObjectId() };
+  if (
+    queryParams.noInput === "" ||
+    queryParams.nameInput === "" ||
+    queryParams.organName === ""
+  ) {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+    enforcementInspection.findOneAndUpdate(
+      queryId,
+      {
+        $set: {
+          inspectionTime: queryParams.inspectionTimeInput,
+          location: queryParams.locationInput,
+          checkObject: queryParams.checkObjectInput,
+          organ: queryParams.addOrganSelectValue
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "操作成功"
+          });
+        }
+      }
+    );
+  }
+};
+
+exports.deleteEnforcementInspectionData = (res, req) => {
+  let queryParams = req.body.params;
+  let queryObj = { _id: { $in: queryParams } };
+  enforcementInspection.remove(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0
+      });
+    }
+  });
 };

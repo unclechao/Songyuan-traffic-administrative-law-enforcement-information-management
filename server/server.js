@@ -92,6 +92,9 @@ apiRoutes.post("/addAdminPeopleInfoData", api.addAdminPeopleInfoData);
 apiRoutes.post("/getAdminEquipmentInfoData", api.getAdminEquipmentInfoData);
 apiRoutes.post("/deleteAdminEquipmentInfoData", api.deleteAdminEquipmentInfoData);
 apiRoutes.post("/addAdminEquipmentInfoData", api.addAdminEquipmentInfoData);
+apiRoutes.post("/getEnforcementInspectionData", api.getEnforcementInspectionData);
+apiRoutes.post("/deleteEnforcementInspectionData", api.deleteEnforcementInspectionData);
+apiRoutes.post("/addEnforcementInspectionData", api.addEnforcementInspectionData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,

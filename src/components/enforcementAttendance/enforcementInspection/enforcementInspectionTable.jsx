@@ -305,22 +305,22 @@ export default class EnforcementInspectionTable extends Component {
 
     const columns = [
       {
-        title: "装备编号",
-        dataIndex: "equipmentNo",
+        title: "检查时间",
+        dataIndex: "inspectionTime",
         sorter: true
       },
       {
-        title: "装备名称",
-        dataIndex: "equipmentName",
+        title: "地点",
+        dataIndex: "location",
         sorter: true
       },
       {
-        title: "装备数量",
-        dataIndex: "count",
+        title: "检查对象",
+        dataIndex: "checkObject",
         sorter: true
       },
       {
-        title: "所属机构",
+        title: "检查机构",
         dataIndex: "organ"
       },
       {
@@ -339,36 +339,35 @@ export default class EnforcementInspectionTable extends Component {
         <div className="table-operations">
           <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="执法装备"
+            title="执法检查"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
             confirmLoading={this.state.modalConfirmLoading}
           >
             <Form>
-              <Form.Item {...formItemLayout} label="装备编号:">
+              <Form.Item {...formItemLayout} label="检查时间:">
                 <Input
                   placeholder="请输入装备编号"
                   value={this.state.noInput}
                   onChange={this.noInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="装备名称:">
+              <Form.Item {...formItemLayout} label="地点:">
                 <Input
-                  placeholder="请输入装备名称"
+                  placeholder="请输入执法检查地点"
                   value={this.state.nameInput}
                   onChange={this.nameInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="数量:">
-                <InputNumber
-                  min={0}
-                  defaultValue={0}
+              <Form.Item {...formItemLayout} label="检查对象:">
+                <Input
+                  placeholder="请输入检查对象"
                   value={this.state.countInput}
                   onChange={this.countInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="所属机构:">
+              <Form.Item {...formItemLayout} label="检查机构:">
                 <Select
                   onChange={this.handleOrganSelectChange.bind(this)}
                   value={this.state.addOrganSelectValue}

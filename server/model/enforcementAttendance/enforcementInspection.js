@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var enforcementInspectionSchema = new mongoose.Schema({
   inspectionTime: { type: Date, required: true },
   location: { type: String, required: true },
-  chenkObject: { type: String, required: true },
+  checkObject: { type: String, required: true },
   organ: { type: String, required: true },
   remark: { type: String },
   createTime: { type: Date },
