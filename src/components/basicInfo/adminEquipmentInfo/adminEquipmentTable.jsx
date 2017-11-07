@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Select,
+  InputNumber,
   notification,
   message
 } from "antd";
@@ -28,10 +29,9 @@ export default class AdminEquipmentInfoTable extends Component {
       disableDel: true,
       addModalVisible: false,
       modalConfirmLoading: false,
-      addSexSelectValue: "请选择性别...",
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
-      phoneInput: "",
+      countInput: "",
       noInput: "",
       nameInput: "",
       editId: "",
@@ -140,25 +140,20 @@ export default class AdminEquipmentInfoTable extends Component {
     this.setState({ noInput: e.target.value });
   }
 
-  phoneInputChange(e) {
-    this.setState({ phoneInput: e.target.value });
+  countInputChange(v) {
+    this.setState({ countInput: v });
   }
 
   handleOrganSelectChange(addOrganSelectValue) {
     this.setState({ addOrganSelectValue });
   }
 
-  handleSexSelectChange(addSexSelectValue) {
-    this.setState({ addSexSelectValue });
-  }
-
   showModal(type) {
     if (type === "edit") {
       this.setState((prevState, props) => ({
-        nameInput: prevState.editRecord.name,
-        noInput: prevState.editRecord.no,
-        phoneInput: prevState.editRecord.phone,
-        addSexSelectValue: prevState.editRecord.sex,
+        nameInput: prevState.editRecord.equipmentName,
+        noInput: prevState.editRecord.equipmentNo,
+        countInput: prevState.editRecord.count,
         addOrganSelectValue: prevState.editRecord.organ,
         editId: prevState.editRecord._id
       }));
@@ -176,12 +171,11 @@ export default class AdminEquipmentInfoTable extends Component {
     this.setState({ modalConfirmLoading: true });
     const nameInput = this.state.nameInput;
     const noInput = this.state.noInput;
-    const phoneInput = this.state.phoneInput;
+    const countInput = this.state.countInput;
 
     if (
       nameInput === "" ||
       noInput === "" ||
-      this.state.addSexSelectValue === "请选择性别..." ||
       this.state.addOrganSelectValue === "请选择所属机构..."
     ) {
       message.warning("请将信息填写完整");
@@ -200,7 +194,7 @@ export default class AdminEquipmentInfoTable extends Component {
             editId: this.state.editId,
             nameInput,
             noInput,
-            phoneInput,
+            countInput,
             addSexSelectValue: this.state.addSexSelectValue,
             addOrganSelectValue: this.state.addOrganSelectValue
           }
@@ -215,11 +209,10 @@ export default class AdminEquipmentInfoTable extends Component {
               () => {
                 this.setState({
                   modalConfirmLoading: false,
-                  addSexSelectValue: "请选择性别...",
                   addOrganSelectValue: "请选择所属机构...",
                   nameInput: "",
                   noInput: "",
-                  phoneInput: ""
+                  countInput: ""
                 });
               }
             );
@@ -313,23 +306,19 @@ export default class AdminEquipmentInfoTable extends Component {
 
     const columns = [
       {
-        title: "工号",
-        dataIndex: "no",
+        title: "装备编号",
+        dataIndex: "equipmentNo",
         sorter: true
       },
       {
-        title: "姓名",
-        dataIndex: "name",
+        title: "装备名称",
+        dataIndex: "equipmentName",
         sorter: true
       },
       {
-        title: "性别",
-        dataIndex: "sex",
-        filters: [{ text: "男", value: "男" }, { text: "女", value: "女" }]
-      },
-      {
-        title: "电话",
-        dataIndex: "phone"
+        title: "装备数量",
+        dataIndex: "count",
+        sorter: true
       },
       {
         title: "所属机构",
@@ -351,41 +340,33 @@ export default class AdminEquipmentInfoTable extends Component {
         <div className="table-operations">
           <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="执法人员"
+            title="执法装备"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
             confirmLoading={this.state.modalConfirmLoading}
           >
             <Form>
-              <Form.Item {...formItemLayout} label="工号:">
+              <Form.Item {...formItemLayout} label="装备编号:">
                 <Input
-                  placeholder="请输入工号"
+                  placeholder="请输入装备编号"
                   value={this.state.noInput}
                   onChange={this.noInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="姓名:">
+              <Form.Item {...formItemLayout} label="装备名称:">
                 <Input
-                  placeholder="请输入姓名"
+                  placeholder="请输入装备名称"
                   value={this.state.nameInput}
                   onChange={this.nameInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="性别:">
-                <Select
-                  onChange={this.handleSexSelectChange.bind(this)}
-                  value={this.state.addSexSelectValue}
-                >
-                  <Select.Option value="男">男</Select.Option>
-                  <Select.Option value="女">女</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item {...formItemLayout} label="联系电话:">
-                <Input
-                  placeholder="请输入联系电话"
-                  value={this.state.phoneInput}
-                  onChange={this.phoneInputChange.bind(this)}
+              <Form.Item {...formItemLayout} label="数量:">
+                <InputNumber
+                  min={0}
+                  defaultValue={0}
+                  value={this.state.countInput}
+                  onChange={this.countInputChange.bind(this)}
                 />
               </Form.Item>
               <Form.Item {...formItemLayout} label="所属机构:">
