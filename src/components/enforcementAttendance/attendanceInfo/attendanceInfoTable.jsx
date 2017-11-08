@@ -311,8 +311,8 @@ export default class AttendanceInfoTable extends Component {
 
     const columns = [
       {
-        title: "检查时间",
-        dataIndex: "inspectionTime",
+        title: "出勤时间",
+        dataIndex: "time",
         sorter: true,
         render: (text, record, index) => {
           return moment(text).format("YYYY/MM/DD");
@@ -320,16 +320,10 @@ export default class AttendanceInfoTable extends Component {
       },
       {
         title: "地点",
-        dataIndex: "location",
-        sorter: true
+        dataIndex: "location"
       },
       {
-        title: "检查对象",
-        dataIndex: "checkObject",
-        sorter: true
-      },
-      {
-        title: "检查机构",
+        title: "出勤机构",
         dataIndex: "organ"
       },
       {
@@ -348,14 +342,14 @@ export default class AttendanceInfoTable extends Component {
         <div className="table-operations">
           <Button onClick={this.showModal.bind(this, "add")}>新增</Button>
           <Modal
-            title="执法检查"
+            title="出勤信息"
             visible={this.state.addModalVisible}
             onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
             confirmLoading={this.state.modalConfirmLoading}
           >
             <Form>
-              <Form.Item {...formItemLayout} label="检查时间:">
+              <Form.Item {...formItemLayout} label="时间:">
                 <DatePicker
                   style={{ width: "285px" }}
                   value={this.state.dateInput}
@@ -364,19 +358,12 @@ export default class AttendanceInfoTable extends Component {
               </Form.Item>
               <Form.Item {...formItemLayout} label="地点:">
                 <Input
-                  placeholder="请输入执法检查地点"
+                  placeholder="请输入出勤地点"
                   value={this.state.locationInput}
                   onChange={this.locationInputChange.bind(this)}
                 />
               </Form.Item>
-              <Form.Item {...formItemLayout} label="检查对象:">
-                <Input
-                  placeholder="请输入检查对象"
-                  value={this.state.checkObject}
-                  onChange={this.checkObjectInputChange.bind(this)}
-                />
-              </Form.Item>
-              <Form.Item {...formItemLayout} label="检查机构:">
+              <Form.Item {...formItemLayout} label="出勤机构:">
                 <Select
                   onChange={this.handleOrganSelectChange.bind(this)}
                   value={this.state.addOrganSelectValue}
@@ -388,9 +375,9 @@ export default class AttendanceInfoTable extends Component {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item {...formItemLayout} label="记录:">
+              <Form.Item {...formItemLayout} label="事由:">
                 <Input.TextArea
-                  placeholder="请输入检查记录"
+                  placeholder="请输入出勤事由"
                   value={this.state.recordInput}
                   onChange={this.recordInputInputChange.bind(this)}
                   autosize={{ minRows: 2, maxRows: 6 }}

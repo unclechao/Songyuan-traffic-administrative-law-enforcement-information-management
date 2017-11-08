@@ -7,6 +7,7 @@ var adminOrganInfo = require("./model/basicInfo/adminOrganInfo");
 var adminPeopleInfo = require("./model/basicInfo/adminPeopleInfo");
 var adminEquipmentInfo = require("./model/basicInfo/adminEquipmentInfo");
 var enforcementInspection = require("./model/enforcementAttendance/enforcementInspection");
+var attendanceInfo = require("./model/enforcementAttendance/attendanceInfo");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -574,3 +575,24 @@ exports.deleteEnforcementInspectionData = (req, res) => {
     }
   });
 };
+
+exports.getAttendanceInfoData = (req, res) => {};
+
+exports.deleteAttendanceInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = { _id: { $in: queryParams } };
+  attendanceInfo.remove(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0
+      });
+    }
+  });
+};
+
+exports.addAttendanceInfoData = (req, res) => {};

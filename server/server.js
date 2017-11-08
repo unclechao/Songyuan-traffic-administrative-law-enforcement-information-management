@@ -95,6 +95,9 @@ apiRoutes.post("/addAdminEquipmentInfoData", api.addAdminEquipmentInfoData);
 apiRoutes.post("/getEnforcementInspectionData", api.getEnforcementInspectionData);
 apiRoutes.post("/deleteEnforcementInspectionData", api.deleteEnforcementInspectionData);
 apiRoutes.post("/addEnforcementInspectionData", api.addEnforcementInspectionData);
+apiRoutes.post("/getAttendanceInfoData", api.getAttendanceInfoData);
+apiRoutes.post("/deleteAttendanceInfoData", api.deleteAttendanceInfoData);
+apiRoutes.post("/addAttendanceInfoData", api.addAttendanceInfoData);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,
