@@ -67,7 +67,7 @@ export default class AntdMenu extends Component {
             </span>
           }
         >
-          <Menu.Item key="21">出勤信息</Menu.Item>
+          <Menu.Item key="attendanceInfoPage:2">出勤信息</Menu.Item>
           <Menu.Item key="enforcementInspectionPage:2">执法检查</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu

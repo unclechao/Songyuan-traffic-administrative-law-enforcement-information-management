@@ -9,6 +9,7 @@ import AdminVehInfoPage from "./pages/basicInfo/adminVehInfoPage";
 import AdminPeopleInfoPage from "./pages/basicInfo/adminPeopleInfoPage";
 import AdminEquipmentInfoPage from "./pages/basicInfo/adminEquipmentInfoPage";
 import EnforcementInspectionPage from "./pages/enforcementAttendance/enforcementInspectionPage";
+import AttendanceInfoPage from "./pages/enforcementAttendance/attendanceInfoPage";
 
 const history = createBrowserHistory();
 
@@ -26,6 +27,7 @@ export default class R extends Component {
             <Route path="/adminPeopleInfo:keyId" component={AdminPeopleInfoPage} />
             <Route path="/adminEquipmentInfo:keyId" component={AdminEquipmentInfoPage} />
             <Route path="/enforcementInspectionPage:keyId" component={EnforcementInspectionPage} />
+            <Route path="/attendanceInfoPage:keyId" component={AttendanceInfoPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>
