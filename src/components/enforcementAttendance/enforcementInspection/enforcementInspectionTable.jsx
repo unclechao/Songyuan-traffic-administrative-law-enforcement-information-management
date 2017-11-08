@@ -158,7 +158,7 @@ export default class EnforcementInspectionTable extends Component {
     if (type === "edit") {
       this.setState((prevState, props) => ({
         locationInput: prevState.editRecord.location,
-        dateInput: moment(prevState.editRecord.inspectionTime, "YYYY/MM/DD"),
+        dateInput: moment(prevState.editRecord.inspectionTime),
         recordInput: prevState.editRecord.remark,
         addOrganSelectValue: prevState.editRecord.organ,
         checkObject: prevState.editRecord.checkObject,
@@ -313,7 +313,10 @@ export default class EnforcementInspectionTable extends Component {
       {
         title: "检查时间",
         dataIndex: "inspectionTime",
-        sorter: true
+        sorter: true,
+        render: (text, record, index) => {
+          return moment(text).format("YYYY/MM/DD");
+        }
       },
       {
         title: "地点",
