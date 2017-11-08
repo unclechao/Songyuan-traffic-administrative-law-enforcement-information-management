@@ -576,7 +576,43 @@ exports.deleteEnforcementInspectionData = (req, res) => {
   });
 };
 
-exports.getAttendanceInfoData = (req, res) => {};
+exports.getAttendanceInfoData = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = {};
+  let sortObj = {};
+  if (queryParams.sortField) {
+    sortObj[queryParams.sortField] =
+      queryParams.sortOrder === "ascend" ? 1 : -1;
+  }
+  attendanceInfo.count(queryObj, (err, count) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      attendanceInfo
+        .find(queryObj)
+        .sort(sortObj)
+        .skip((queryParams.page - 1) * queryParams.results)
+        .limit(queryParams.results)
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              code: -1,
+              message: "服务器内部错误"
+            });
+          } else {
+            res.status(200).send({
+              code: 0,
+              totalCount: count,
+              data
+            });
+          }
+        });
+    }
+  });
+};
 
 exports.deleteAttendanceInfoData = (req, res) => {
   let queryParams = req.body.params;
@@ -595,4 +631,6 @@ exports.deleteAttendanceInfoData = (req, res) => {
   });
 };
 
-exports.addAttendanceInfoData = (req, res) => {};
+exports.addAttendanceInfoData = (req, res) => {
+  
+};
