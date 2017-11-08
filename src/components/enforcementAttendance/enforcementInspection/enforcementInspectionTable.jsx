@@ -11,6 +11,7 @@ import {
   notification,
   message
 } from "antd";
+import moment from "moment";
 import "antd/dist/antd.min.css";
 import "../../../styles/antdTable.css";
 
@@ -31,7 +32,8 @@ export default class EnforcementInspectionTable extends Component {
       modalConfirmLoading: false,
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
-      dateInput: "",
+      recordInput: "",
+      dateInput: null,
       locationInput: "",
       checkObject: "",
       editId: "",
@@ -137,9 +139,11 @@ export default class EnforcementInspectionTable extends Component {
   }
 
   dateInputChange(date, dateString) {
-    console.log(date);
-    console.log(dateString);
     this.setState({ dateInput: date });
+  }
+
+  recordInputInputChange(e) {
+    this.setState({ recordInput: e.target.value });
   }
 
   checkObjectInputChange(e) {
@@ -153,14 +157,22 @@ export default class EnforcementInspectionTable extends Component {
   showModal(type) {
     if (type === "edit") {
       this.setState((prevState, props) => ({
-        nameInput: prevState.editRecord.equipmentName,
-        noInput: prevState.editRecord.equipmentNo,
-        countInput: prevState.editRecord.count,
+        locationInput: prevState.editRecord.location,
+        dateInput: moment(prevState.editRecord.inspectionTime, "YYYY/MM/DD"),
+        recordInput: prevState.editRecord.remark,
         addOrganSelectValue: prevState.editRecord.organ,
+        checkObject: prevState.editRecord.checkObject,
         editId: prevState.editRecord._id
       }));
     } else {
-      this.setState({ editId: "" });
+      this.setState({
+        editId: "",
+        addOrganSelectValue: "请选择所属机构...",
+        dateInput: null,
+        locationInput: "",
+        checkObject: "",
+        recordInput: ""
+      });
     }
     this.setState({ addModalVisible: true });
   }
@@ -171,13 +183,14 @@ export default class EnforcementInspectionTable extends Component {
 
   handleModalOk() {
     this.setState({ modalConfirmLoading: true });
-    const nameInput = this.state.nameInput;
-    const noInput = this.state.noInput;
-    const countInput = this.state.countInput;
-
+    const dateInput = this.state.dateInput;
+    const locationInput = this.state.locationInput;
+    const recordInput = this.state.recordInput;
+    const checkObject = this.state.checkObject;
     if (
-      nameInput === "" ||
-      noInput === "" ||
+      dateInput === null ||
+      locationInput === "" ||
+      checkObject === "" ||
       this.state.addOrganSelectValue === "请选择所属机构..."
     ) {
       message.warning("请将信息填写完整");
@@ -194,29 +207,20 @@ export default class EnforcementInspectionTable extends Component {
           token: window.localStorage.token,
           params: {
             editId: this.state.editId,
-            nameInput,
-            noInput,
-            countInput,
+            dateInput,
+            locationInput,
+            checkObject,
+            recordInput,
             addOrganSelectValue: this.state.addOrganSelectValue
           }
         })
       })
         .then(res => {
           res.json().then(ret => {
-            this.setState(
-              {
-                addModalVisible: false
-              },
-              () => {
-                this.setState({
-                  modalConfirmLoading: false,
-                  addOrganSelectValue: "请选择所属机构...",
-                  nameInput: "",
-                  noInput: "",
-                  countInput: ""
-                });
-              }
-            );
+            this.setState({
+              addModalVisible: false,
+              modalConfirmLoading: false
+            });
             if (ret.code === -1) {
               notification["error"]({
                 placement: "bottomRight",
@@ -350,7 +354,7 @@ export default class EnforcementInspectionTable extends Component {
             <Form>
               <Form.Item {...formItemLayout} label="检查时间:">
                 <DatePicker
-                  style={{width : "285px"}}
+                  style={{ width: "285px" }}
                   value={this.state.dateInput}
                   onChange={this.dateInputChange.bind(this)}
                 />
@@ -380,6 +384,14 @@ export default class EnforcementInspectionTable extends Component {
                     </Select.Option>
                   ))}
                 </Select>
+              </Form.Item>
+              <Form.Item {...formItemLayout} label="记录:">
+                <Input.TextArea
+                  placeholder="请输入检查记录"
+                  value={this.state.recordInput}
+                  onChange={this.recordInputInputChange.bind(this)}
+                  autosize={{ minRows: 2, maxRows: 6 }}
+                />
               </Form.Item>
             </Form>
           </Modal>

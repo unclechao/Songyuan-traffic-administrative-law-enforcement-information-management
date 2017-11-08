@@ -514,15 +514,15 @@ exports.getEnforcementInspectionData = (req, res) => {
   });
 };
 
-exports.addEnforcementInspectionData = (res, req) => {
+exports.addEnforcementInspectionData = (req, res) => {
   let queryParams = req.body.params;
   let queryId = queryParams.editId
     ? { _id: queryParams.editId }
     : { _id: mongoose.Types.ObjectId() };
   if (
-    queryParams.noInput === "" ||
-    queryParams.nameInput === "" ||
-    queryParams.organName === ""
+    queryParams.dateInput === null ||
+    queryParams.locationInput === "" ||
+    queryParams.checkObject === ""
   ) {
     res.status(200).send({
       code: 2001,
@@ -533,10 +533,11 @@ exports.addEnforcementInspectionData = (res, req) => {
       queryId,
       {
         $set: {
-          inspectionTime: queryParams.inspectionTimeInput,
+          inspectionTime: queryParams.dateInput,
           location: queryParams.locationInput,
-          checkObject: queryParams.checkObjectInput,
-          organ: queryParams.addOrganSelectValue
+          checkObject: queryParams.checkObject,
+          organ: queryParams.addOrganSelectValue,
+          remark: queryParams.recordInput
         }
       },
       { upsert: true },
@@ -557,7 +558,7 @@ exports.addEnforcementInspectionData = (res, req) => {
   }
 };
 
-exports.deleteEnforcementInspectionData = (res, req) => {
+exports.deleteEnforcementInspectionData = (req, res) => {
   let queryParams = req.body.params;
   let queryObj = { _id: { $in: queryParams } };
   enforcementInspection.remove(queryObj).exec((err, data) => {
