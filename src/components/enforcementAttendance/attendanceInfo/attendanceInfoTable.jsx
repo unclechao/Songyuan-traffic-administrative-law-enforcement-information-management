@@ -35,7 +35,6 @@ export default class AttendanceInfoTable extends Component {
       recordInput: "",
       dateInput: null,
       locationInput: "",
-      checkObject: "",
       editId: "",
       organNameList: []
     };
@@ -90,7 +89,7 @@ export default class AttendanceInfoTable extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true });
-    fetch("/api/getEnforcementInspectionData", {
+    fetch("/api/getAttendanceInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -146,10 +145,6 @@ export default class AttendanceInfoTable extends Component {
     this.setState({ recordInput: e.target.value });
   }
 
-  checkObjectInputChange(e) {
-    this.setState({ checkObject: e.target.value });
-  }
-
   handleOrganSelectChange(addOrganSelectValue) {
     this.setState({ addOrganSelectValue });
   }
@@ -186,11 +181,9 @@ export default class AttendanceInfoTable extends Component {
     const dateInput = this.state.dateInput;
     const locationInput = this.state.locationInput;
     const recordInput = this.state.recordInput;
-    const checkObject = this.state.checkObject;
     if (
       dateInput === null ||
       locationInput === "" ||
-      checkObject === "" ||
       this.state.addOrganSelectValue === "请选择所属机构..."
     ) {
       message.warning("请将信息填写完整");
@@ -198,7 +191,7 @@ export default class AttendanceInfoTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/addEnforcementInspectionData", {
+      fetch("/api/getAttendanceInfoData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -209,7 +202,6 @@ export default class AttendanceInfoTable extends Component {
             editId: this.state.editId,
             dateInput,
             locationInput,
-            checkObject,
             recordInput,
             addOrganSelectValue: this.state.addOrganSelectValue
           }
@@ -251,7 +243,7 @@ export default class AttendanceInfoTable extends Component {
 
   handleConfirmDel(e) {
     e.preventDefault();
-    fetch("/api/deleteEnforcementInspectionData", {
+    fetch("/api/deleteAttendanceInfoData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

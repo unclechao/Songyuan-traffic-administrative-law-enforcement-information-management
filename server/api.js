@@ -632,5 +632,40 @@ exports.deleteAttendanceInfoData = (req, res) => {
 };
 
 exports.addAttendanceInfoData = (req, res) => {
-  
+  let queryParams = req.body.params;
+  let queryId = queryParams.editId
+    ? { _id: queryParams.editId }
+    : { _id: mongoose.Types.ObjectId() };
+  if (queryParams.dateInput === null || queryParams.locationInput === "") {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+    attendanceInfo.findOneAndUpdate(
+      queryId,
+      {
+        $set: {
+          time: queryParams.dateInput,
+          location: queryParams.locationInput,
+          organ: queryParams.addOrganSelectValue,
+          remark: queryParams.recordInput
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "操作成功"
+          });
+        }
+      }
+    );
+  }
 };
