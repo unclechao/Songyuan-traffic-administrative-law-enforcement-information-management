@@ -200,15 +200,47 @@ export default class AttendanceInfoTable extends Component {
   showModal(type) {
     if (type === "edit") {
       this.setState({ attendancePeopleAreaVisible: "" }, () => {
-        this.setState((prevState, props) => ({
-          locationInput: prevState.editRecord.location,
-          dateInput: moment(prevState.editRecord.time),
-          recordInput: prevState.editRecord.remark,
-          addOrganSelectValue: prevState.editRecord.organ,
-          editId: prevState.editRecord._id,
-          addModalVisible: true
-          // checkBox fill
-        }));
+        fetch("/api/getOrganPeopleNameList", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            token: window.localStorage.token,
+            organ: this.state.editRecord.organ
+          })
+        })
+          .then(res => {
+            res.json().then(ret => {
+              if (ret.code === -1) {
+                notification["error"]({
+                  placement: "bottomRight",
+                  message: "错误",
+                  description: "系统异常,请联系管理员"
+                });
+              } else if (ret.code !== 0) {
+                message.warning(ret.message);
+              } else {
+                this.setState({ attendancePeopleNameList: ret.data });
+                this.setState((prevState, props) => ({
+                  locationInput: prevState.editRecord.location,
+                  dateInput: moment(prevState.editRecord.time),
+                  recordInput: prevState.editRecord.remark,
+                  addOrganSelectValue: prevState.editRecord.organ,
+                  editId: prevState.editRecord._id,
+                  addModalVisible: true,
+                  attendancePeopleNameCheckedList: prevState.editRecord.people
+                }));
+              }
+            });
+          })
+          .catch(err => {
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
+            });
+          });
       });
     } else {
       this.setState({
