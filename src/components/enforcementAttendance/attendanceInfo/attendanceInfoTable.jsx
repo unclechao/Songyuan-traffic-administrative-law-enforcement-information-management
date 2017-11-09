@@ -186,25 +186,42 @@ export default class AttendanceInfoTable extends Component {
     this.setState({ addOrganSelectValue, attendancePeopleAreaVisible: "" });
   }
 
+  onCheckBoxChange(e) {
+    let tempArr = this.state.attendancePeopleNameCheckedList;
+    if (tempArr.indexOf(e.target.value) === -1) {
+      // not include
+      tempArr.push(e.target.value);
+    } else {
+      tempArr.splice(tempArr.indexOf(e.target.value), 1);
+    }
+    this.setState({ attendancePeopleNameCheckedList: tempArr });
+  }
+
   showModal(type) {
     if (type === "edit") {
-      this.setState((prevState, props) => ({
-        locationInput: prevState.editRecord.location,
-        dateInput: moment(prevState.editRecord.time),
-        recordInput: prevState.editRecord.remark,
-        addOrganSelectValue: prevState.editRecord.organ,
-        editId: prevState.editRecord._id
-      }));
+      this.setState({ attendancePeopleAreaVisible: "" }, () => {
+        this.setState((prevState, props) => ({
+          locationInput: prevState.editRecord.location,
+          dateInput: moment(prevState.editRecord.time),
+          recordInput: prevState.editRecord.remark,
+          addOrganSelectValue: prevState.editRecord.organ,
+          editId: prevState.editRecord._id,
+          addModalVisible: true
+          // checkBox fill
+        }));
+      });
     } else {
       this.setState({
         editId: "",
         addOrganSelectValue: "请选择所属机构...",
         dateInput: null,
         locationInput: "",
-        recordInput: ""
+        recordInput: "",
+        attendancePeopleAreaVisible: "hidden",
+        attendancePeopleNameCheckedList: [],
+        addModalVisible: true
       });
     }
-    this.setState({ addModalVisible: true });
   }
 
   handleModalCancel() {
@@ -241,7 +258,8 @@ export default class AttendanceInfoTable extends Component {
             dateInput,
             locationInput,
             recordInput,
-            addOrganSelectValue: this.state.addOrganSelectValue
+            addOrganSelectValue: this.state.addOrganSelectValue,
+            people: this.state.attendancePeopleNameCheckedList
           }
         })
       })
@@ -316,8 +334,6 @@ export default class AttendanceInfoTable extends Component {
   }
 
   render() {
-    const organNameList = this.state.organNameList;
-
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         if (selectedRowKeys.length > 0) {
@@ -398,7 +414,7 @@ export default class AttendanceInfoTable extends Component {
                   onChange={this.handleOrganSelectChange.bind(this)}
                   value={this.state.addOrganSelectValue}
                 >
-                  {organNameList.map(d => (
+                  {this.state.organNameList.map(d => (
                     <Select.Option key={d._id} value={d.organName}>
                       {d.organName}
                     </Select.Option>
@@ -407,11 +423,20 @@ export default class AttendanceInfoTable extends Component {
               </Form.Item>
               <div hidden={this.state.attendancePeopleAreaVisible}>
                 <Form.Item {...formItemLayout} label="出勤人员:">
-                  <Checkbox.Group
-                    options={this.state.attendancePeopleNameList}
-                    value={this.state.attendancePeopleNameCheckedList}
-                    onChange={this.onChange}
-                  />
+                  {this.state.attendancePeopleNameList.map(d => (
+                    <Checkbox
+                      key={d._id}
+                      value={d._id}
+                      checked={
+                        this.state.attendancePeopleNameCheckedList.indexOf(
+                          d._id
+                        ) > -1
+                      }
+                      onChange={this.onCheckBoxChange.bind(this)}
+                    >
+                      {d.name}
+                    </Checkbox>
+                  ))}
                 </Form.Item>
               </div>
               <Form.Item {...formItemLayout} label="事由:">

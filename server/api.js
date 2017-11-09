@@ -649,7 +649,8 @@ exports.addAttendanceInfoData = (req, res) => {
           time: queryParams.dateInput,
           location: queryParams.locationInput,
           organ: queryParams.addOrganSelectValue,
-          remark: queryParams.recordInput
+          remark: queryParams.recordInput,
+          people: queryParams.people
         }
       },
       { upsert: true },
@@ -671,7 +672,7 @@ exports.addAttendanceInfoData = (req, res) => {
 };
 
 exports.getOrganPeopleNameList = (req, res) => {
-  let queryParams = req.body.params;
+  let queryParams = req.body;
   let queryObj = {};
   queryObj.organ = queryParams.organ;
   adminPeopleInfo.find(queryObj).exec((err, data) => {
