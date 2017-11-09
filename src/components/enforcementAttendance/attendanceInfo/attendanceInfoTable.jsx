@@ -153,10 +153,9 @@ export default class AttendanceInfoTable extends Component {
     if (type === "edit") {
       this.setState((prevState, props) => ({
         locationInput: prevState.editRecord.location,
-        dateInput: moment(prevState.editRecord.inspectionTime),
+        dateInput: moment(prevState.editRecord.time),
         recordInput: prevState.editRecord.remark,
         addOrganSelectValue: prevState.editRecord.organ,
-        checkObject: prevState.editRecord.checkObject,
         editId: prevState.editRecord._id
       }));
     } else {
@@ -165,7 +164,6 @@ export default class AttendanceInfoTable extends Component {
         addOrganSelectValue: "请选择所属机构...",
         dateInput: null,
         locationInput: "",
-        checkObject: "",
         recordInput: ""
       });
     }
@@ -191,7 +189,7 @@ export default class AttendanceInfoTable extends Component {
         modalConfirmLoading: false
       });
     } else {
-      fetch("/api/getAttendanceInfoData", {
+      fetch("/api/addAttendanceInfoData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
