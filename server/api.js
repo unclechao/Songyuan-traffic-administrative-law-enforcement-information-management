@@ -669,3 +669,22 @@ exports.addAttendanceInfoData = (req, res) => {
     );
   }
 };
+
+exports.getOrganPeopleNameList = (req, res) => {
+  let queryParams = req.body.params;
+  let queryObj = {};
+  queryObj.organ = queryParams.organ;
+  adminPeopleInfo.find(queryObj).exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      res.status(200).send({
+        code: 0,
+        data
+      });
+    }
+  });
+};

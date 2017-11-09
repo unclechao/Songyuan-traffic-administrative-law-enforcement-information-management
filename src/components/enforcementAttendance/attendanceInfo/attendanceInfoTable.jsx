@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   DatePicker,
+  Checkbox,
   notification,
   message
 } from "antd";
@@ -30,13 +31,16 @@ export default class AttendanceInfoTable extends Component {
       disableDel: true,
       addModalVisible: false,
       modalConfirmLoading: false,
+      attendancePeopleAreaVisible: "hidden",
       addOrganSelectValue: "请选择所属机构...",
       editRecord: {},
       recordInput: "",
       dateInput: null,
       locationInput: "",
       editId: "",
-      organNameList: []
+      organNameList: [],
+      attendancePeopleNameList: [],
+      attendancePeopleNameCheckedList: []
     };
     // init vehicle organ
     fetch("/api/getAdminOrganInfoNameList", {
@@ -146,7 +150,40 @@ export default class AttendanceInfoTable extends Component {
   }
 
   handleOrganSelectChange(addOrganSelectValue) {
-    this.setState({ addOrganSelectValue });
+    //获取所属机构下人员名单
+    fetch("/api/getOrganPeopleNameList", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: window.localStorage.token,
+        organ: addOrganSelectValue
+      })
+    })
+      .then(res => {
+        res.json().then(ret => {
+          if (ret.code === -1) {
+            notification["error"]({
+              placement: "bottomRight",
+              message: "错误",
+              description: "系统异常,请联系管理员"
+            });
+          } else if (ret.code !== 0) {
+            message.warning(ret.message);
+          } else {
+            this.setState({ attendancePeopleNameList: ret.data });
+          }
+        });
+      })
+      .catch(err => {
+        notification["error"]({
+          placement: "bottomRight",
+          message: "错误",
+          description: "系统异常,请联系管理员"
+        });
+      });
+    this.setState({ addOrganSelectValue, attendancePeopleAreaVisible: "" });
   }
 
   showModal(type) {
@@ -171,7 +208,10 @@ export default class AttendanceInfoTable extends Component {
   }
 
   handleModalCancel() {
-    this.setState({ addModalVisible: false });
+    this.setState({
+      addModalVisible: false,
+      attendancePeopleAreaVisible: "hidden"
+    });
   }
 
   handleModalOk() {
@@ -365,6 +405,15 @@ export default class AttendanceInfoTable extends Component {
                   ))}
                 </Select>
               </Form.Item>
+              <div hidden={this.state.attendancePeopleAreaVisible}>
+                <Form.Item {...formItemLayout} label="出勤人员:">
+                  <Checkbox.Group
+                    options={this.state.attendancePeopleNameList}
+                    value={this.state.attendancePeopleNameCheckedList}
+                    onChange={this.onChange}
+                  />
+                </Form.Item>
+              </div>
               <Form.Item {...formItemLayout} label="事由:">
                 <Input.TextArea
                   placeholder="请输入出勤事由"
