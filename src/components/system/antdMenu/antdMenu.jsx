@@ -79,8 +79,8 @@ export default class AntdMenu extends Component {
             </span>
           }
         >
-          <Menu.Item key="31">实时监控</Menu.Item>
-          <Menu.Item key="32">运行轨迹</Menu.Item>
+          <Menu.Item key="monitor:3">实时监控</Menu.Item>
+          <Menu.Item key="trace:3">运行轨迹</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
           key="4"
