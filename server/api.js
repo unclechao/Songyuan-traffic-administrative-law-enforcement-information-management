@@ -699,8 +699,7 @@ exports.getOrganAndPeopleTreeList = (req, res) => {
         message: "服务器内部错误"
       });
     } else {
-      const count = data.length;
-      var index = 0;
+      let index = 0;
       data.map(item => {
         adminPeopleInfo.find({ organ: item.organName }).exec((err, people) => {
           let tempChildrenArr = [];
@@ -716,7 +715,7 @@ exports.getOrganAndPeopleTreeList = (req, res) => {
             children: tempChildrenArr
           });
           index++;
-          if (index == count) {
+          if (index == data.length) {
             res.status(200).send({
               code: 0,
               data: resArr
