@@ -689,3 +689,41 @@ exports.getOrganPeopleNameList = (req, res) => {
     }
   });
 };
+
+exports.getOrganAndPeopleTreeList = (req, res) => {
+  let resArr = [];
+  adminOrganInfo.find({}, "organName").exec((err, data) => {
+    if (err) {
+      res.status(500).send({
+        code: -1,
+        message: "服务器内部错误"
+      });
+    } else {
+      const count = data.length;
+      var index = 0;
+      data.map(item => {
+        adminPeopleInfo.find({ organ: item.organName }).exec((err, people) => {
+          let tempChildrenArr = [];
+          people.map(p => {
+            tempChildrenArr.push({
+              title: p.name,
+              key: p._id
+            });
+          });
+          resArr.push({
+            title: item.organName,
+            key: item._id,
+            children: tempChildrenArr
+          });
+          index++;
+          if (index == count) {
+            res.status(200).send({
+              code: 0,
+              data: resArr
+            });
+          }
+        });
+      });
+    }
+  });
+};

@@ -99,6 +99,7 @@ apiRoutes.post("/getAttendanceInfoData", api.getAttendanceInfoData);
 apiRoutes.post("/deleteAttendanceInfoData", api.deleteAttendanceInfoData);
 apiRoutes.post("/addAttendanceInfoData", api.addAttendanceInfoData);
 apiRoutes.post("/getOrganPeopleNameList", api.getOrganPeopleNameList);
+apiRoutes.post("/getOrganAndPeopleTreeList", api.getOrganAndPeopleTreeList);
 
 var server = app.listen(
   process.env.PORT || constant.SERVER_PORT,
