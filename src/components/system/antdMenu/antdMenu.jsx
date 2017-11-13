@@ -104,7 +104,7 @@ export default class AntdMenu extends Component {
           }
         >
           <Menu.Item key="51">语音调度</Menu.Item>
-          <Menu.Item key="52">短信调度</Menu.Item>
+          <Menu.Item key="messageDispatch:5">短信调度</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
           key="6"
