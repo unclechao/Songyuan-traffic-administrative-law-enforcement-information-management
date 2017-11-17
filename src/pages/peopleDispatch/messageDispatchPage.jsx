@@ -144,33 +144,35 @@ export default class MessageDispatchPage extends Component {
               </Tree>
             </Col>
             <Col span={18}>
-              <div style={{ margin: "0 20px 0 0" }}>
-                <p>请填写短信发送内容:</p>
-                <Input.TextArea
-                  placeholder="内容"
-                  autosize={{ minRows: 10, maxRows: 20 }}
-                  value={this.state.sendContent}
-                  onChange={this.handleChange.bind(this)}
-                  ref="sengContentInput"
-                />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={6} offset={18}>
-              <Button
-                style={{ margin: "16px" }}
-                onClick={this.onClear.bind(this)}
-                disabled={this.state.rewriteBtnDisable}
-              >
-                重新填写
-              </Button>
-              <Button
-                style={{ margin: "16px" }}
-                disabled={this.state.sendBtnDisable}
-              >
-                发送
-              </Button>
+              <Row>
+                <div style={{ margin: "0 10px 0 0" }}>
+                  <p>请填写短信发送内容:</p>
+                  <Input.TextArea
+                    placeholder="内容"
+                    autosize={{ minRows: 10, maxRows: 20 }}
+                    value={this.state.sendContent}
+                    onChange={this.handleChange.bind(this)}
+                    ref="sengContentInput"
+                  />
+                </div>
+              </Row>
+              <Row type="flex" justify="end">
+                <Col>
+                  <Button
+                    style={{ margin: "10px" }}
+                    onClick={this.onClear.bind(this)}
+                    disabled={this.state.rewriteBtnDisable}
+                  >
+                    重新填写
+                  </Button>
+                  <Button
+                    style={{ margin: "10px" }}
+                    disabled={this.state.sendBtnDisable}
+                  >
+                    发送
+                  </Button>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Main>
