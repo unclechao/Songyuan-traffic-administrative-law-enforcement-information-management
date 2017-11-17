@@ -91,7 +91,7 @@ export default class AntdMenu extends Component {
             </span>
           }
         >
-          <Menu.Item key="41">文本调度信息</Menu.Item>
+          <Menu.Item key="textMessageDispatch:4">文本调度信息</Menu.Item>
           <Menu.Item key="42">参数设置</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu

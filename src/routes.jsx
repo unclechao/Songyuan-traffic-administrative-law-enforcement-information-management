@@ -13,6 +13,7 @@ import AttendanceInfoPage from "./pages/enforcementAttendance/attendanceInfoPage
 import MonitorPage from "./pages/vehicleMonitor/monitorPage";
 import TracePage from "./pages/vehicleMonitor/tracePage";
 import MessageDispatchPage from "./pages/peopleDispatch/messageDispatchPage";
+import TextMessageDispatchPage from "./pages/vehicleDispatch/textMessageDispatchPage";
 
 const history = createBrowserHistory();
 
@@ -34,6 +35,7 @@ export default class R extends Component {
             <Route path="/monitor:keyId" component={MonitorPage} />
             <Route path="/trace:keyId" component={TracePage} />
             <Route path="/messageDispatch:keyId" component={MessageDispatchPage} />
+            <Route path="/textMessageDispatch:keyId" component={TextMessageDispatchPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>
