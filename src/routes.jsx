@@ -14,6 +14,9 @@ import MonitorPage from "./pages/vehicleMonitor/monitorPage";
 import TracePage from "./pages/vehicleMonitor/tracePage";
 import MessageDispatchPage from "./pages/peopleDispatch/messageDispatchPage";
 import TextMessageDispatchPage from "./pages/vehicleDispatch/textMessageDispatchPage";
+import OrderCreatePage from "./pages/workOrder/orderCreatePage";
+import OrderDealPage from "./pages/workOrder/orderDealPage";
+import OrderSearchPage from "./pages/workOrder/orderSearchPage";
 
 const history = createBrowserHistory();
 
@@ -26,16 +29,40 @@ export default class R extends Component {
             <Route exact path="/" component={MainFrame} />
             <Route path="/login" component={LoginPage} />
             <Route path="/main" component={MainFrame} />
-            <Route path="/adminOrganInfo:keyId" component={AdminOrganInfoPage} />
+            <Route
+              path="/adminOrganInfo:keyId"
+              component={AdminOrganInfoPage}
+            />
             <Route path="/adminVehInfo:keyId" component={AdminVehInfoPage} />
-            <Route path="/adminPeopleInfo:keyId" component={AdminPeopleInfoPage} />
-            <Route path="/adminEquipmentInfo:keyId" component={AdminEquipmentInfoPage} />
-            <Route path="/enforcementInspectionPage:keyId" component={EnforcementInspectionPage} />
-            <Route path="/attendanceInfoPage:keyId" component={AttendanceInfoPage} />
+            <Route
+              path="/adminPeopleInfo:keyId"
+              component={AdminPeopleInfoPage}
+            />
+            <Route
+              path="/adminEquipmentInfo:keyId"
+              component={AdminEquipmentInfoPage}
+            />
+            <Route
+              path="/enforcementInspectionPage:keyId"
+              component={EnforcementInspectionPage}
+            />
+            <Route
+              path="/attendanceInfoPage:keyId"
+              component={AttendanceInfoPage}
+            />
             <Route path="/monitor:keyId" component={MonitorPage} />
             <Route path="/trace:keyId" component={TracePage} />
-            <Route path="/messageDispatch:keyId" component={MessageDispatchPage} />
-            <Route path="/textMessageDispatch:keyId" component={TextMessageDispatchPage} />
+            <Route
+              path="/messageDispatch:keyId"
+              component={MessageDispatchPage}
+            />
+            <Route
+              path="/textMessageDispatch:keyId"
+              component={TextMessageDispatchPage}
+            />
+            <Route path="/workOrderCreate:keyId" component={OrderCreatePage} />
+            <Route path="/workOrderDeal:keyId" component={OrderDealPage} />
+            <Route path="/workOrderSearch:keyId" component={OrderSearchPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>
