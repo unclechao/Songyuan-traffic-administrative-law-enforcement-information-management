@@ -28,9 +28,9 @@ export default class OrderCreatePage extends Component {
     this.setState({ importantLevel: e.target.value });
   };
   submitOrder = () => {
-    console.log(this.state.no)
-    console.log(this.state.importantLevel)
-    console.log(this.state.recordInput)
+    console.log(this.state.no);
+    console.log(this.state.importantLevel);
+    console.log(this.state.recordInput);
   };
 
   render() {
