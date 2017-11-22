@@ -8,6 +8,7 @@ var adminPeopleInfo = require("./model/basicInfo/adminPeopleInfo");
 var adminEquipmentInfo = require("./model/basicInfo/adminEquipmentInfo");
 var enforcementInspection = require("./model/enforcementAttendance/enforcementInspection");
 var attendanceInfo = require("./model/enforcementAttendance/attendanceInfo");
+var workOrder = require("./model/workOrder/workOrder");
 
 exports.authorizeLogin = (req, res) => {
   user.findOne(
@@ -762,4 +763,45 @@ exports.getOrganAndVehTreeList = (req, res) => {
       });
     }
   });
+};
+
+exports.addWorkOrder = (req, res) => {
+  let queryParams = req.body.params;
+  if (
+    queryParams.no === "" ||
+    queryParams.importantLevel === "" ||
+    queryParams.describe === ""
+  ) {
+    res.status(200).send({
+      code: 2001,
+      message: "请求参数错误"
+    });
+  } else {
+    workOrder.findOneAndUpdate(
+      { no: queryParams.no },
+      {
+        $set: {
+          time: queryParams.time,
+          describe: queryParams.describe,
+          no: queryParams.no,
+          importantLevel: queryParams.importantLevel,
+          state: "待解决"
+        }
+      },
+      { upsert: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500).send({
+            code: -1,
+            message: "服务器内部错误"
+          });
+        } else {
+          res.status(200).send({
+            code: 0,
+            message: "操作成功"
+          });
+        }
+      }
+    );
+  }
 };

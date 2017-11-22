@@ -15,22 +15,64 @@ export default class OrderCreatePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recordInput: "",
+      describeInput: "",
       importantLevel: "一般",
       no: new Date().getTime()
     };
   }
 
-  recordInputInputChange = e => {
-    this.setState({ recordInput: e.target.value });
+  describeInputChange = e => {
+    this.setState({ describeInput: e.target.value });
   };
   onLevelChange = e => {
     this.setState({ importantLevel: e.target.value });
   };
   submitOrder = () => {
-    console.log(this.state.no);
-    console.log(this.state.importantLevel);
-    console.log(this.state.recordInput);
+    if (this.state.describeInput === "") {
+      message.warning("请将信息填写完整");
+    } else {
+      fetch("/api/addWorkOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: window.localStorage.token,
+          params: {
+            no: this.state.no,
+            importantLevel: this.state.importantLevel,
+            describe: this.state.describeInput,
+            time: moment()
+          }
+        })
+      })
+        .then(res => {
+          res.json().then(ret => {
+            if (ret.code === -1) {
+              notification["error"]({
+                placement: "bottomRight",
+                message: "错误",
+                description: "系统异常,请联系管理员"
+              });
+            } else if (ret.code !== 0) {
+              message.warning(ret.message);
+            } else {
+              this.setState({
+                no: new Date().getTime(),
+                describeInput:""
+              });
+              message.success(ret.message);
+            }
+          });
+        })
+        .catch(err => {
+          notification["error"]({
+            placement: "bottomRight",
+            message: "错误",
+            description: "系统异常,请联系管理员"
+          });
+        });
+    }
   };
 
   render() {
@@ -64,8 +106,8 @@ export default class OrderCreatePage extends Component {
             <Form.Item label="问题描述:">
               <Input.TextArea
                 style={{ width: "400px" }}
-                value={this.state.recordInput}
-                onChange={this.recordInputInputChange.bind(this)}
+                value={this.state.describeInput}
+                onChange={this.describeInputChange.bind(this)}
                 autosize={{ minRows: 6, maxRows: 10 }}
               />
             </Form.Item>
