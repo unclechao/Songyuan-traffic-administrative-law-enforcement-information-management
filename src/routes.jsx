@@ -17,6 +17,7 @@ import TextMessageDispatchPage from "./pages/vehicleDispatch/textMessageDispatch
 import OrderCreatePage from "./pages/workOrder/orderCreatePage";
 import OrderDealPage from "./pages/workOrder/orderDealPage";
 import OrderSearchPage from "./pages/workOrder/orderSearchPage";
+import DispatchOptionPage from "./pages/vehicleDispatch/dispatchOptionPage";
 
 const history = createBrowserHistory();
 
@@ -63,6 +64,10 @@ export default class R extends Component {
             <Route path="/workOrderCreate:keyId" component={OrderCreatePage} />
             <Route path="/workOrderDeal:keyId" component={OrderDealPage} />
             <Route path="/workOrderSearch:keyId" component={OrderSearchPage} />
+            <Route
+              path="/dispatchOption:keyId"
+              component={DispatchOptionPage}
+            />
             <Route component={PageNotFound} />
           </Switch>
         </Router>

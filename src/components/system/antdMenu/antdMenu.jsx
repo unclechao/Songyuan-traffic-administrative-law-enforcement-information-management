@@ -92,7 +92,7 @@ export default class AntdMenu extends Component {
           }
         >
           <Menu.Item key="textMessageDispatch:4">文本调度信息</Menu.Item>
-          <Menu.Item key="42">参数设置</Menu.Item>
+          <Menu.Item key="dispatchOption:4">参数设置</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
           key="5"
