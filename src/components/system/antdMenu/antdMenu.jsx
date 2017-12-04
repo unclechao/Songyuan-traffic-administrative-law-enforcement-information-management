@@ -115,8 +115,7 @@ export default class AntdMenu extends Component {
           }
         >
           <Menu.Item key="workOrderCreate:6">工单创建</Menu.Item>
-          <Menu.Item key="workOrderDeal:6">工单处理</Menu.Item>
-          <Menu.Item key="workOrderSearch:6">工单查询</Menu.Item>
+          <Menu.Item key="workOrderSearch:6">工单查询及处理</Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu
           key="7"

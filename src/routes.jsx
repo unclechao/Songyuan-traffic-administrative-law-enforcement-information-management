@@ -15,7 +15,6 @@ import TracePage from "./pages/vehicleMonitor/tracePage";
 import MessageDispatchPage from "./pages/peopleDispatch/messageDispatchPage";
 import TextMessageDispatchPage from "./pages/vehicleDispatch/textMessageDispatchPage";
 import OrderCreatePage from "./pages/workOrder/orderCreatePage";
-import OrderDealPage from "./pages/workOrder/orderDealPage";
 import OrderSearchPage from "./pages/workOrder/orderSearchPage";
 import DispatchOptionPage from "./pages/vehicleDispatch/dispatchOptionPage";
 
@@ -62,7 +61,6 @@ export default class R extends Component {
               component={TextMessageDispatchPage}
             />
             <Route path="/workOrderCreate:keyId" component={OrderCreatePage} />
-            <Route path="/workOrderDeal:keyId" component={OrderDealPage} />
             <Route path="/workOrderSearch:keyId" component={OrderSearchPage} />
             <Route
               path="/dispatchOption:keyId"
