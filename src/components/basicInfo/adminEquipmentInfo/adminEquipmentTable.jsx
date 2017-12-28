@@ -239,7 +239,7 @@ export default class AdminEquipmentInfoTable extends Component {
     }
   }
 
-  handleTableRowMouseEnter(record, index, event) {
+  handleTableRowMouseEnter(record) {
     this.setState({ editRecord: record });
   }
 
@@ -400,7 +400,11 @@ export default class AdminEquipmentInfoTable extends Component {
           pagination={this.state.pagination}
           loading={this.state.loading}
           onChange={this.handleTableChange}
-          onRowMouseEnter={this.handleTableRowMouseEnter.bind(this)}
+          onRow={record => ({
+            onMouseEnter: () => {
+              this.handleTableRowMouseEnter(record);
+            }
+          })}
         />
       </div>
     );
