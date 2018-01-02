@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class Footer extends Component {
   render() {
     return (
-      <div className="row  navbar-default navbar-fixed-bottom">
+      <div className="navbar-default navbar-fixed-bottom">
         <div className="col-lg-12">
           <div className="col-md-8">
             <a>关于</a> | <a>版权所有</a>
