@@ -4,6 +4,7 @@ import Login from "../components/system/login/login";
 import Footer from "../components/system/footer/footer";
 
 export default class LoginPage extends Component {
+
   render() {
     return (
       <div>

@@ -6,6 +6,7 @@
     "antd": "^3.5.0",
     "bootstrap": "^3.3.7",
     "echarts": "^4.1.0",
+    "echarts-for-react": "^2.0.8",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "jssha": "^2.3.1",
